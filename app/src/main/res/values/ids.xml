@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="buttonOne" type="id">1</item>
+    <item name="buttonTwo" type="id">2</item>
+    <item name="buttonThree" type="id">3</item>
+    <item name="buttonFour" type="id">4</item>
+    <item name="buttonFive" type="id">5</item>
+    <item name="buttonSix" type="id">6</item>
+    <item name="buttonSeven" type="id">7</item>
+    <item name="buttonEight" type="id">8</item>
+    <item name="buttonNine" type="id">9</item>
+    <item name="your_button_id" type="id">1</item>
+</resources>
