@@ -27,6 +27,8 @@ public class MainActivity extends Activity {
     public static Integer numberOfSlots;
     public static Integer numberOfTries;
     public static boolean allowEmpty;
+    public static boolean allowDuplicates;
+    public static boolean againstPlayer;
     public static String colors[];
     public static String pin;
     public Integer guess = 1;
@@ -49,6 +51,8 @@ public class MainActivity extends Activity {
         numberOfColors = settings.getInt("numberOfColors", 6);
         numberOfSlots = settings.getInt("numberOfSlots", 4);
         numberOfTries = settings.getInt("numberOfTries", 12);
+        againstPlayer = settings.getBoolean("againstPlayer", false);
+        allowDuplicates = settings.getBoolean("allowDuplicates", false);
         final String c = settings.getString("colors", "#ff0000@#0000ff@#ffff00@#ffa500@#008000@#a52a2a");
         allowEmpty = settings.getBoolean("allowEmpty", false);
         colors = c.split("@");
@@ -63,11 +67,29 @@ public class MainActivity extends Activity {
         guesses = new Integer[numberOfTries][numberOfSlots];
         hiddenAnswer = new Integer[numberOfSlots];
 
-        // Random Combination: ToDo: Duell Modus
-        Random rand = new Random();
-        for(int i=0;i<numberOfSlots;i++){
-            int  n = rand.nextInt(numberOfColors);
-            hiddenAnswer[i] = n;
+        // Random Combination (with dupes check): ToDo: Duell Modus
+        if(!againstPlayer) {
+            Random rand = new Random();
+            for (int i = 0; i < numberOfSlots; i++) {
+                int n = rand.nextInt(numberOfColors);
+                if(allowDuplicates) {
+                    hiddenAnswer[i] = n;
+                } else {
+                    boolean dupes = false;
+                    for (int j = 0;j<i;j++){
+                        if (hiddenAnswer[j].equals(n)){
+                            dupes = true;
+                            i--;
+                            break;
+                        }
+                    }
+                    if (!dupes){
+                        hiddenAnswer[i] = n;
+                    }
+                }
+            }
+        } else {
+            // ToDo
         }
 
         // init Display Size and calculate sizes
