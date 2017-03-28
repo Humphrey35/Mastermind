@@ -103,6 +103,7 @@ public class MainActivity extends Activity {
 //                btn[i][j].setText(pin);
                 if(i==0) btn[i][j].setBackgroundResource(R.drawable.grey);
                 else btn[i][j].setBackgroundResource(R.drawable.circle);
+                btn[i][j].setTextColor(Color.parseColor("#000000"));
                 btn[i][j].setId(i*10+j+1);
                 btn[i][j].setMinimumWidth(1);
                 btn[i][j].setWidth(widthOfSlot);
