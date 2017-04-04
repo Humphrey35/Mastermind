@@ -19,6 +19,9 @@
         <activity android:name=".Pop"
             android:theme="@style/AppTheme.popupwindow"
             ></activity>
+        <activity android:name=".Win"
+            android:theme="@style/AppTheme.popupwindow"
+            ></activity>
     </application>
 
 </manifest>

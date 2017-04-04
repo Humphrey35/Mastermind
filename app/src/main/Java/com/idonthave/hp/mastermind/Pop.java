@@ -59,6 +59,7 @@ public class Pop extends Activity {
             } else {
                 lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT,1);
             }
+            lp.setMargins(intent.getIntExtra("marginOfPopupSlot", 2)/2, intent.getIntExtra("marginOfPopupSlot", 2)/2,0,0);
             slot[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

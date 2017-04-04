@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">TestMastermind</string>
+    <string-array name="colors">
+        <item>blue</item>
+        <item>brown</item>
+        <item>grass</item>
+        <item>green</item>
+        <item>orange</item>
+        <item>pink</item>
+        <item>purple</item>
+        <item>red</item>
+        <item>sky</item>
+        <item>yellow</item>
+    </string-array>
+    <string-array name="pin">
+        <item>round</item>
+        <item>box</item>
+    </string-array>
+    <string-array name="board">
+        <item>white</item>
+        <item>brown</item>
+        <item>grey</item>
+        <item>golden</item>
+    </string-array>
 </resources>

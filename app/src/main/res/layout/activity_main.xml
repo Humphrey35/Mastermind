@@ -15,7 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:id="@+id/ll" >
 
             <RelativeLayout
                 android:id="@+id/rl"
@@ -36,6 +37,17 @@
         android:layout_gravity="bottom|right"
         app:layout_anchor="@id/sc"
         app:layout_anchorGravity="bottom|right|end"
-        app:backgroundTint="#FF0000"
+        app:backgroundTint="#0c4e19"
+        app:rippleColor="#FFF" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/undo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:layout_gravity="bottom|left"
+        app:layout_anchor="@id/sc"
+        app:layout_anchorGravity="bottom|left|end"
+        app:backgroundTint="#fff200"
         app:rippleColor="#FFF" />
 </android.support.design.widget.CoordinatorLayout>
