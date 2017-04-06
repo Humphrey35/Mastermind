@@ -92,7 +92,11 @@ public class MainActivity extends Activity {
         hiddenAnswer = new Integer[numberOfSlots];
         for (int i=0;i<guesses.length;i++){
             for (int j=0;j<guesses[i].length;j++){
-                guesses[i][j] = 99;
+                if (allowEmpty){
+                    guesses[i][j] = numberOfColors-1;
+                } else {
+                    guesses[i][j] = 99;
+                }
             }
         }
 
