@@ -38,7 +38,9 @@ public class Win extends Activity {
         TextView text = new TextView(this);
         rl.addView(text);
 
-        text.setText(String.valueOf(intent.getLongExtra("estimatedTime", 100)/1000000));
+        text.setText("Sie haben gewonnen! Ihre Zeit betrug " + String.valueOf(intent.getLongExtra("estimatedTime", 100)/1000000) +"ms\r\nklicken Sie hier um das Spiel neuzustarten");
+
+
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

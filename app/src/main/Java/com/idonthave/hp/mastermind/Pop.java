@@ -29,7 +29,7 @@ public class Pop extends Activity {
 
         getWindow().setLayout(intent.getIntExtra("width", 10), intent.getIntExtra("height", 10));
 
-        final String color = intent.getStringExtra("colors");
+        final int colors[] = intent.getIntArrayExtra("colorsArray");
 
 //        TextView t = new TextView(this);
 //        t.setText(String.valueOf(colors.length));

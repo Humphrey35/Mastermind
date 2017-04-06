@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="49dp" />
+        android:layout_marginTop="49dp"
+        android:max="2" />
 
     <SeekBar
         android:id="@+id/seekBar2"
@@ -16,7 +17,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/seekBar"
-        android:layout_marginTop="57dp" />
+        android:layout_marginTop="57dp"
+        android:max="4" />
 
     <SeekBar
         android:id="@+id/seekBar3"
@@ -27,42 +29,61 @@
         android:layout_below="@+id/seekBar2"
         android:layout_marginTop="48dp" />
 
-    <ToggleButton
-        android:id="@+id/toggleButton"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="27dp"
-        android:layout_marginRight="27dp"
-        android:text="ToggleButton"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <ToggleButton
-        android:id="@+id/toggleButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
-        android:text="ToggleButton"
-        android:layout_below="@+id/toggleButton"
-        android:layout_alignLeft="@+id/toggleButton"
-        android:layout_alignStart="@+id/toggleButton" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/toggleButton2"
-        android:layout_marginTop="36dp" />
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:text="TextView"
+        android:layout_below="@+id/seekBar" />
 
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/spinner"
-        android:layout_marginTop="18dp" />
+        android:text="TextView"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/seekBar2" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/seekBar3" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="86dp"
+        android:text="Spiel starten"
+        android:layout_below="@+id/duplicates"
+        android:layout_centerHorizontal="true" />
+
+    <CheckBox
+        android:id="@+id/duplicates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="22dp"
+        android:text="Doppelte Zulassen" />
+
+    <CheckBox
+        android:id="@+id/emptySlots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/duplicates"
+        android:layout_alignStart="@+id/duplicates"
+        android:layout_below="@+id/duplicates"
+        android:text="Leere Felder zulassen" />
+
 </RelativeLayout>

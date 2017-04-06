@@ -25,14 +25,14 @@ public class MainActivity extends Activity {
 
     // Global Vars
     public static final String PREFS_NAME = "GameSettings";
-    public static Integer numberOfColors;
-    public static Integer numberOfSlots;
-    public static Integer numberOfTries;
+    public static int numberOfColors;
+    public static int numberOfSlots;
+    public static int numberOfTries;
     public static boolean allowEmpty;
     public static boolean allowDuplicates;
     public static boolean allowHighscore;
     public static boolean againstPlayer;
-    public static String colors[];
+    public static int colors[];
     public static String pin;
     public Integer guess = 1;
     TextView[][] btn;
@@ -47,6 +47,8 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+        final int AllColors[] = { R.drawable.blue, R.drawable.brown, R.drawable.grass, R.drawable.green, R.drawable.orange, R.drawable.pink, R.drawable.purple, R.drawable.red, R.drawable.sky, R.drawable.yellow };
+
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl);
         ScrollView sc = (ScrollView) findViewById(R.id.sc);
         LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
@@ -59,16 +61,25 @@ public class MainActivity extends Activity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
         numberOfColors = settings.getInt("numberOfColors", 6);
-        numberOfSlots = settings.getInt("numberOfSlots", 8);
-        numberOfTries = settings.getInt("numberOfTries", 4);
+        numberOfSlots = settings.getInt("numberOfSlots", 4);
+        numberOfTries = settings.getInt("numberOfTries", 10);
         againstPlayer = settings.getBoolean("againstPlayer", false);
         allowDuplicates = settings.getBoolean("allowDuplicates", true);
-        final String c = settings.getString("colors", "#ff0000@#0000ff@#ffff00@#ffa500@#008000@#a52a2a");
         allowEmpty = settings.getBoolean("allowEmpty", false);
         if (allowEmpty){
             numberOfColors++;
         }
-        colors = c.split("@");
+
+        colors = new int[numberOfColors];
+
+        for (int i=0;i<numberOfColors;i++){
+            if(i==numberOfColors-1&&allowEmpty){
+                colors[i] = R.drawable.active_circle;
+            } else {
+                colors[i] = AllColors[i];
+            }
+        }
+
         pin = settings.getString("pin", "●");
 
         /* Init of the Arrays
@@ -90,25 +101,7 @@ public class MainActivity extends Activity {
 
         // Random Combination (with dupes check): ToDo: Duell Modus
         if(!againstPlayer) {
-            Random rand = new Random();
-            for (int i = 0; i < numberOfSlots; i++) {
-                int n = rand.nextInt(numberOfColors);
-                if(allowDuplicates) {
-                    hiddenAnswer[i] = n;
-                } else {
-                    boolean dupes = false;
-                    for (int j = 0;j<i;j++){
-                        if (hiddenAnswer[j].equals(n)){
-                            dupes = true;
-                            i--;
-                            break;
-                        }
-                    }
-                    if (!dupes){
-                        hiddenAnswer[i] = n;
-                    }
-                }
-            }
+            createRandomAnswer();
         } else {
             // ToDo
         }
@@ -177,6 +170,7 @@ public class MainActivity extends Activity {
                 }
                 btn[i][j].setLayoutParams(lp);
                 if (i==guess){
+                    btn[i][j].setBackgroundResource(R.drawable.active_circle);
                     btn[i][j].setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
@@ -187,7 +181,7 @@ public class MainActivity extends Activity {
                             popup.putExtra("slotHeight", widthOfPopupSlot);
                             popup.putExtra("textSize", textSizeOfPopupSlot);
                             popup.putExtra("marginOfPopupSlot", marginOfPopupSlot);
-                            popup.putExtra("colors", c);
+                            popup.putExtra("colorsArray", colors);
                             popup.putExtra("pin", pin);
                             popup.putExtra("ID", v.getId());
                             startActivityForResult(popup, 200);
@@ -286,10 +280,12 @@ public class MainActivity extends Activity {
                         win.putExtra("slotHeight", widthOfPopupSlot);
                         win.putExtra("textSize", textSizeOfPopupSlot);
                         win.putExtra("marginOfPopupSlot", marginOfPopupSlot);
-                        win.putExtra("colors", c);
                         win.putExtra("pin", pin);
                         win.putExtra("estimatedTime", estimatedTime);
                         //popup.putExtra("ID", v.getId());
+                        for (int j=0;j<btn[0].length;j++){
+                            btn[0][j].setBackgroundResource(colors[hiddenAnswer[j]]);
+                        }
                         startActivityForResult(win, 300);
                     }
                     for (int k=0;k<(numberOfSlots/2);k++){
@@ -337,6 +333,7 @@ public class MainActivity extends Activity {
                         boolean loss = true;
                     }
                     for (int j=0;j<btn[guess].length;j++){
+                        btn[guess][j].setBackgroundResource(R.drawable.active_circle);
                         btn[guess][j].setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v) {
@@ -347,7 +344,7 @@ public class MainActivity extends Activity {
                                 popup.putExtra("slotHeight", widthOfPopupSlot);
                                 popup.putExtra("textSize", textSizeOfPopupSlot);
                                 popup.putExtra("marginOfPopupSlot", marginOfPopupSlot);
-                                popup.putExtra("colors", c);
+                                popup.putExtra("colorsArray", colors);
                                 popup.putExtra("pin", pin);
                                 popup.putExtra("ID", v.getId());
                                 startActivityForResult(popup, 200);
@@ -355,9 +352,9 @@ public class MainActivity extends Activity {
                         });
                     }
                 } else {
-                    StringBuffer sb = new StringBuffer();
-                    for (int i=0;i<hiddenAnswer.length;i++){
-                        sb.append(hiddenAnswer[i]);
+                    StringBuilder sb = new StringBuilder();
+                    for (Integer aHiddenAnswer : hiddenAnswer) {
+                        sb.append(aHiddenAnswer);
                     }
                     Toast.makeText(getApplicationContext(), sb.toString(),
                             Toast.LENGTH_LONG).show();
@@ -391,6 +388,7 @@ public class MainActivity extends Activity {
                         guesses[guess][j] = 99;
                     }
                     for (int j = 0; j < btn[guess].length; j++) {
+                        btn[guess][j].setBackgroundResource(R.drawable.active_circle);
                         btn[guess][j].setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -400,8 +398,8 @@ public class MainActivity extends Activity {
                                 popup.putExtra("slotWidth", widthOfPopupSlot);
                                 popup.putExtra("slotHeight", widthOfPopupSlot);
                                 popup.putExtra("textSize", textSizeOfPopupSlot);
-                                popup.putExtra("colors", c);
                                 popup.putExtra("marginOfPopupSlot", marginOfPopupSlot);
+                                popup.putExtra("colorsArray", colors);
                                 popup.putExtra("pin", pin);
                                 popup.putExtra("ID", v.getId());
                                 startActivityForResult(popup, 200);
@@ -442,6 +440,31 @@ public class MainActivity extends Activity {
         //textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         return textSize;
 
+    }
+
+    /*
+    Fill hiddenAnswer with random ints between 0 and numberOfColors
+     */
+    protected void createRandomAnswer(){
+        Random rand = new Random();
+        for (int i = 0; i < numberOfSlots; i++) {
+            int n = rand.nextInt(numberOfColors);
+            if(allowDuplicates) {
+                hiddenAnswer[i] = n;
+            } else {
+                boolean dupes = false;
+                for (int j = 0;j<i;j++){
+                    if (hiddenAnswer[j].equals(n)){
+                        dupes = true;
+                        i--;
+                        break;
+                    }
+                }
+                if (!dupes){
+                    hiddenAnswer[i] = n;
+                }
+            }
+        }
     }
 
     /*
