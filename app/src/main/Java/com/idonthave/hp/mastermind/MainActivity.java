@@ -336,6 +336,13 @@ public class MainActivity extends Activity {
                         //ToDo: loss
                         boolean loss = true;
                     }
+                    if (allowEmpty){
+                        for (int j=0;j<btn[guess-1].length;j++){
+                            if (guesses[guess-1][j] == numberOfColors-1){
+                                btn[guess-1][j].setBackgroundResource(R.drawable.circle);
+                            }
+                        }
+                    }
                     for (int j=0;j<btn[guess].length;j++){
                         btn[guess][j].setBackgroundResource(R.drawable.active_circle);
                         btn[guess][j].setOnClickListener(new View.OnClickListener(){
