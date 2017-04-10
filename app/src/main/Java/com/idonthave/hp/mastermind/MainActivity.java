@@ -175,6 +175,39 @@ public class MainActivity extends Activity {
                 btn[i][j].setLayoutParams(lp);
                 if (i==guess){
                     btn[i][j].setBackgroundResource(R.drawable.active_circle);
+
+                    /* Shadow -> Needs more Work
+                    TextView shadow = new TextView(this);
+                    rl.addView(shadow);
+//                btn[i][j].setText(pin);
+                    shadow.setBackgroundResource(R.drawable.shadow);
+                    shadow.setId(i*10+j+2000);
+                    shadow.setMinimumWidth(1);
+                    shadow.setWidth(widthOfSlot);
+                    shadow.setMinHeight(1);
+                    shadow.setHeight(widthOfSlot);
+                    shadow.setIncludeFontPadding(false);
+                    shadow.setGravity(Gravity.CENTER_VERTICAL);
+                    shadow.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizeOfSlot);
+                    btn[i][j].bringToFront();
+                    LayoutParams lp2 = (LayoutParams) shadow.getLayoutParams();
+                    lp2.setMargins(0, 0,0,0);
+                    if(j==0){
+                        lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT,1);
+                    } else {
+                        lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT,0);
+                        lp2.addRule(RelativeLayout.RIGHT_OF,btn[i][j-1].getId());
+                    }
+                    if(i==0){
+                        lp2.addRule(RelativeLayout.ALIGN_PARENT_TOP,1);
+                    } else {
+                        lp2.addRule(RelativeLayout.ALIGN_PARENT_TOP,0);
+                        lp2.addRule(RelativeLayout.BELOW,btn[i-1][j].getId());
+                    }
+                    shadow.setLayoutParams(lp2); */
+
+
+
                     btn[i][j].setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
@@ -188,6 +221,7 @@ public class MainActivity extends Activity {
                             popup.putExtra("colorsArray", colors);
                             popup.putExtra("pin", pin);
                             popup.putExtra("ID", v.getId());
+                            popup.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivityForResult(popup, 200);
                         }
                     });
@@ -256,20 +290,26 @@ public class MainActivity extends Activity {
                     int black = 0;
                     int white = 0;
                     boolean[] knownPins = new boolean[numberOfSlots];
+                    boolean[] knownAnswer = new boolean[numberOfSlots];
                     for (int i=0;i<numberOfSlots;i++){
                         knownPins[i] = false;
+                        knownAnswer[i] = false;
                     }
                     for (int i=0;i<btn[guess].length;i++) {
                         if (guesses[guess][i].equals(hiddenAnswer[i])) {
                             knownPins[i] = true;
+                            knownAnswer[i] = true;
                             black++;
                         }
                     }
                     for (int i=0;i<btn[guess].length;i++) {
                         for (int j = 0; j < btn[guess].length; j++) {
-                            if (guesses[guess][i].equals(hiddenAnswer[j]) && i != j && !knownPins[j]) {
+                            if (guesses[guess][i].equals(hiddenAnswer[j]) && i != j && !knownPins[j] && !knownAnswer[i]) {
                                 knownPins[j] = true;
+                                knownAnswer[i] = true;
                                 white++;
+                                Toast.makeText(getApplicationContext(), i +" "+j,
+                                        Toast.LENGTH_LONG).show();
                                 break;
                             }
                         }
@@ -290,6 +330,7 @@ public class MainActivity extends Activity {
                         for (int j=0;j<btn[0].length;j++){
                             btn[0][j].setBackgroundResource(colors[hiddenAnswer[j]]);
                         }
+                        win.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivityForResult(win, 300);
                     }
                     for (int k=0;k<(numberOfSlots/2);k++){
@@ -358,6 +399,7 @@ public class MainActivity extends Activity {
                                 popup.putExtra("colorsArray", colors);
                                 popup.putExtra("pin", pin);
                                 popup.putExtra("ID", v.getId());
+                                popup.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivityForResult(popup, 200);
                             }
                         });
@@ -413,6 +455,7 @@ public class MainActivity extends Activity {
                                 popup.putExtra("colorsArray", colors);
                                 popup.putExtra("pin", pin);
                                 popup.putExtra("ID", v.getId());
+                                popup.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivityForResult(popup, 200);
                             }
                         });
@@ -476,6 +519,10 @@ public class MainActivity extends Activity {
                 }
             }
         }
+        hiddenAnswer[0] = 2;
+        hiddenAnswer[1] = 2;
+        hiddenAnswer[2] = 2;
+        hiddenAnswer[3] = 3;
     }
 
     /*
