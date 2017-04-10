@@ -308,8 +308,6 @@ public class MainActivity extends Activity {
                                 knownPins[j] = true;
                                 knownAnswer[i] = true;
                                 white++;
-                                Toast.makeText(getApplicationContext(), i +" "+j,
-                                        Toast.LENGTH_LONG).show();
                                 break;
                             }
                         }
@@ -519,10 +517,6 @@ public class MainActivity extends Activity {
                 }
             }
         }
-        hiddenAnswer[0] = 2;
-        hiddenAnswer[1] = 2;
-        hiddenAnswer[2] = 2;
-        hiddenAnswer[3] = 3;
     }
 
     /*
