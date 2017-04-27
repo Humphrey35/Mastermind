@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button_scoreboard"
+        android:id="@+id/button_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:text="Scoreboard"
-        android:layout_below="@+id/button_settings"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/button_rules"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/button_scoreboard"
-        android:layout_alignLeft="@+id/button_scoreboard"
-        android:layout_alignRight="@+id/button_scoreboard"
-        android:layout_alignStart="@+id/button_scoreboard"
-        android:layout_below="@+id/button_scoreboard"
-        android:layout_marginTop="18dp"
-        android:text="Rules" />
+        android:layout_marginTop="45dp"
+        android:background="@color/colorStyleGreen"
+        android:text="Play"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/button_settings"
+        android:layout_alignStart="@+id/button_settings" />
 
     <Button
         android:id="@+id/button_settings"
@@ -33,17 +24,31 @@
         android:layout_alignRight="@+id/button_scoreboard"
         android:layout_alignStart="@+id/button_scoreboard"
         android:layout_marginTop="114dp"
+        android:background="@color/colorStyleBlue"
         android:text="Settings" />
 
+
     <Button
-        android:id="@+id/button_play"
+        android:id="@+id/button_scoreboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/button_settings"
-        android:layout_alignLeft="@+id/button_settings"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/button_settings"
-        android:layout_alignStart="@+id/button_settings"
-        android:layout_marginTop="51dp"
-        android:text="Play" />
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/button_settings"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorStyleRed"
+        android:text="Scoreboard"/>
+
+    <Button
+        android:id="@+id/button_rules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button_scoreboard"
+        android:layout_alignLeft="@+id/button_scoreboard"
+        android:layout_alignRight="@+id/button_scoreboard"
+        android:layout_alignStart="@+id/button_scoreboard"
+        android:layout_below="@+id/button_scoreboard"
+        android:layout_marginTop="18dp"
+        android:background="@color/colorStyleYellow"
+        android:text="Rules" />
+
 </RelativeLayout>
