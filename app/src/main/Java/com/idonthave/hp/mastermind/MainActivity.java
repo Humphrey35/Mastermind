@@ -62,13 +62,15 @@ public class MainActivity extends Activity {
 
         numberOfColors = settings.getInt("numberOfColors", 6);
         numberOfSlots = settings.getInt("numberOfSlots", 4);
-        numberOfTries = settings.getInt("numberOfTries", 10);
+        numberOfTries = settings.getInt("numberOfTries", 9)+2;
         againstPlayer = settings.getBoolean("againstPlayer", false);
         allowDuplicates = settings.getBoolean("allowDuplicates", true);
         allowEmpty = settings.getBoolean("allowEmpty", false);
         if (allowEmpty){
             numberOfColors++;
         }
+
+        int continueGame = settings.getInt("continueGame", 0);
 
         colors = new int[numberOfColors];
 
@@ -99,6 +101,7 @@ public class MainActivity extends Activity {
                 }
             }
         }
+
 
         // get an System Time that cannot(!) be changed (though changing the System Clock)
         startTime = System.nanoTime();

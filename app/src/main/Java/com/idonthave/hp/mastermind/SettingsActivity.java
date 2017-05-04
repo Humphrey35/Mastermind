@@ -36,7 +36,7 @@ public class SettingsActivity extends Activity {
 
         seekBarNumberOfColors.setProgress(setSeekbarColor(settings.getInt("numberOfColors", 6)));
         seekBarNumberOfSlots.setProgress(setSeekbarSlots(settings.getInt("numberOfSlots", 4)));
-        seekBarNumberOfTries.setProgress(settings.getInt("numberOfTries",10));
+        seekBarNumberOfTries.setProgress(settings.getInt("numberOfTries",9));
 
         duplicates.setChecked(settings.getBoolean("allowDuplicates", true));
         emptySlots.setChecked(settings.getBoolean("allowEmpty", false));
@@ -91,7 +91,7 @@ public class SettingsActivity extends Activity {
             }
         });
 
-        textViewNumberOfTries.setText("Anzahl Versuche: " + seekBarNumberOfTries.getProgress());
+        textViewNumberOfTries.setText("Anzahl Versuche: " + (seekBarNumberOfTries.getProgress()+1));
 
         seekBarNumberOfTries.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             int progress = getSeekbarSlots(0);
@@ -99,17 +99,17 @@ public class SettingsActivity extends Activity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 progress = progresValue;
-                textViewNumberOfTries.setText("Anzahl Versuche: " + progress);
+                textViewNumberOfTries.setText("Anzahl Versuche: " + (progress+1));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                textViewNumberOfTries.setText("Anzahl Versuche: " + progress);
+                textViewNumberOfTries.setText("Anzahl Versuche: " + (progress+1));
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                textViewNumberOfTries.setText("Anzahl Versuche: " + progress);
+                textViewNumberOfTries.setText("Anzahl Versuche: " + (progress+1));
                 editor.putInt("numberOfTries",progress);
                 editor.commit();
             }
@@ -159,7 +159,7 @@ public class SettingsActivity extends Activity {
     }
 
     private int getSeekbarColor(int seek){
-        int r = new Integer(6);
+        int r = Integer.valueOf(6);
         switch (seek){
             case 0: r = 5;break;
             case 1: r = 6;break;
@@ -169,7 +169,7 @@ public class SettingsActivity extends Activity {
     }
 
     private int getSeekbarSlots(int seek){
-        int r = new Integer(4);
+        int r = Integer.valueOf(4);
         switch (seek){
             case 0: r = 3;break;
             case 1: r = 4;break;
@@ -181,7 +181,7 @@ public class SettingsActivity extends Activity {
     }
 
     private int setSeekbarColor(int seek){
-        int r = new Integer(1);
+        int r = Integer.valueOf(1);
         switch (seek){
             case 5: r = 0;break;
             case 6: r = 1;break;
@@ -191,7 +191,7 @@ public class SettingsActivity extends Activity {
     }
 
     private int setSeekbarSlots(int seek){
-        int r = new Integer(1);
+        int r = Integer.valueOf(1);
         switch (seek){
             case 3: r = 0;break;
             case 4: r = 1;break;
