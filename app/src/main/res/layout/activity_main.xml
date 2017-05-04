@@ -37,8 +37,8 @@
         android:layout_gravity="bottom|right"
         app:layout_anchor="@id/sc"
         app:layout_anchorGravity="bottom|right|end"
-        app:backgroundTint="#0c4e19"
-        app:rippleColor="#FFF" />
+        app:backgroundTint="@color/colorStyleGreen"
+        app:rippleColor="@color/colorStyleDarkGreen" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/undo"
         android:layout_width="wrap_content"
@@ -48,6 +48,6 @@
         android:layout_gravity="bottom|left"
         app:layout_anchor="@id/sc"
         app:layout_anchorGravity="bottom|left|end"
-        app:backgroundTint="#fff200"
-        app:rippleColor="#FFF" />
+        app:backgroundTint="@color/colorStyleLightBlue"
+        app:rippleColor="@color/colorStyleBlue" />
 </android.support.design.widget.CoordinatorLayout>
