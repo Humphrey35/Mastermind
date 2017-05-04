@@ -326,6 +326,7 @@ public class MainActivity extends Activity {
                         win.putExtra("textSize", textSizeOfPopupSlot);
                         win.putExtra("marginOfPopupSlot", marginOfPopupSlot);
                         win.putExtra("pin", pin);
+                        win.putExtra("WL","W");
                         win.putExtra("estimatedTime", estimatedTime);
                         //popup.putExtra("ID", v.getId());
                         for (int j=0;j<btn[0].length;j++){
@@ -374,36 +375,52 @@ public class MainActivity extends Activity {
                         }
                     }
                     guess++;
-                    if(guess>btn.length){
-                        //ToDo: loss
-                        boolean loss = true;
-                    }
-                    if (allowEmpty){
-                        for (int j=0;j<btn[guess-1].length;j++){
-                            if (guesses[guess-1][j] == numberOfColors-1){
-                                btn[guess-1][j].setBackgroundResource(R.drawable.circle);
+                    if(guess>=btn.length){
+                        long estimatedTime = System.nanoTime() - startTime;
+                        Intent win = new Intent(MainActivity.this, Win.class);
+                        win.putExtra("width", widthOfPopup);
+                        win.putExtra("height", widthOfPopupSlot);
+                        win.putExtra("slotWidth", widthOfPopupSlot);
+                        win.putExtra("slotHeight", widthOfPopupSlot);
+                        win.putExtra("textSize", textSizeOfPopupSlot);
+                        win.putExtra("marginOfPopupSlot", marginOfPopupSlot);
+                        win.putExtra("pin", pin);
+                        win.putExtra("estimatedTime", estimatedTime);
+                        win.putExtra("WL","L");
+                        //popup.putExtra("ID", v.getId());
+                        for (int j=0;j<btn[0].length;j++){
+                            btn[0][j].setBackgroundResource(colors[hiddenAnswer[j]]);
+                        }
+                        win.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivityForResult(win, 300);
+                    } else {
+                        if (allowEmpty) {
+                            for (int j = 0; j < btn[guess - 1].length; j++) {
+                                if (guesses[guess - 1][j] == numberOfColors - 1) {
+                                    btn[guess - 1][j].setBackgroundResource(R.drawable.circle);
+                                }
                             }
                         }
-                    }
-                    for (int j=0;j<btn[guess].length;j++){
-                        btn[guess][j].setBackgroundResource(R.drawable.active_circle);
-                        btn[guess][j].setOnClickListener(new View.OnClickListener(){
-                            @Override
-                            public void onClick(View v) {
-                                Intent popup = new Intent(MainActivity.this, Pop.class);
-                                popup.putExtra("width", widthOfPopup);
-                                popup.putExtra("height", widthOfPopupSlot);
-                                popup.putExtra("slotWidth", widthOfPopupSlot);
-                                popup.putExtra("slotHeight", widthOfPopupSlot);
-                                popup.putExtra("textSize", textSizeOfPopupSlot);
-                                popup.putExtra("marginOfPopupSlot", marginOfPopupSlot);
-                                popup.putExtra("colorsArray", colors);
-                                popup.putExtra("pin", pin);
-                                popup.putExtra("ID", v.getId());
-                                popup.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                startActivityForResult(popup, 200);
-                            }
-                        });
+                        for (int j = 0; j < btn[guess].length; j++) {
+                            btn[guess][j].setBackgroundResource(R.drawable.active_circle);
+                            btn[guess][j].setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent popup = new Intent(MainActivity.this, Pop.class);
+                                    popup.putExtra("width", widthOfPopup);
+                                    popup.putExtra("height", widthOfPopupSlot);
+                                    popup.putExtra("slotWidth", widthOfPopupSlot);
+                                    popup.putExtra("slotHeight", widthOfPopupSlot);
+                                    popup.putExtra("textSize", textSizeOfPopupSlot);
+                                    popup.putExtra("marginOfPopupSlot", marginOfPopupSlot);
+                                    popup.putExtra("colorsArray", colors);
+                                    popup.putExtra("pin", pin);
+                                    popup.putExtra("ID", v.getId());
+                                    popup.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivityForResult(popup, 200);
+                                }
+                            });
+                        }
                     }
                 } else {
                     StringBuilder sb = new StringBuilder();
