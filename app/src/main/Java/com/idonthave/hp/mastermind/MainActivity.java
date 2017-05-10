@@ -19,6 +19,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.math.BigInteger;
 import java.util.Random;
 
 public class MainActivity extends Activity {
@@ -32,6 +34,7 @@ public class MainActivity extends Activity {
     public static boolean allowDuplicates;
     public static boolean allowHighscore;
     public static boolean againstPlayer;
+    public static double highscore = 0;
     public static int colors[];
     public static String pin;
     public Integer guess = 1;
@@ -69,6 +72,7 @@ public class MainActivity extends Activity {
         if (allowEmpty){
             numberOfColors++;
         }
+        highscore = 0;
 
         int continueGame = settings.getInt("continueGame", 0);
 
@@ -303,6 +307,13 @@ public class MainActivity extends Activity {
                             knownPins[i] = true;
                             knownAnswer[i] = true;
                             black++;
+                            highscore = highscore + Math.pow(2,37-guess);
+                            if(allowDuplicates){
+                                highscore = highscore + (Math.pow(2,37-guess)/4);
+                            }
+                            if(allowEmpty){
+                                highscore = highscore + (Math.pow(2,37-guess)/8);
+                            }
                         }
                     }
                     for (int i=0;i<btn[guess].length;i++) {
@@ -311,6 +322,13 @@ public class MainActivity extends Activity {
                                 knownPins[j] = true;
                                 knownAnswer[i] = true;
                                 white++;
+                                highscore = highscore + Math.pow(2,36-guess);
+                                if(allowDuplicates){
+                                    highscore = highscore + (Math.pow(2,36-guess)/4);
+                                }
+                                if(allowEmpty){
+                                    highscore = highscore + (Math.pow(2,36-guess)/8);
+                                }
                                 break;
                             }
                         }
@@ -328,6 +346,7 @@ public class MainActivity extends Activity {
                         win.putExtra("pin", pin);
                         win.putExtra("WL","W");
                         win.putExtra("estimatedTime", estimatedTime);
+                        win.putExtra("highscore",highscore);
                         //popup.putExtra("ID", v.getId());
                         for (int j=0;j<btn[0].length;j++){
                             btn[0][j].setBackgroundResource(colors[hiddenAnswer[j]]);

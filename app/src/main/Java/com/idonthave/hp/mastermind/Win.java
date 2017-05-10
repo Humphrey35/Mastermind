@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 /* Pop Class to Choose Color */
 public class Win extends Activity {
 
@@ -38,8 +40,8 @@ public class Win extends Activity {
         TextView text = new TextView(this);
         rl.addView(text);
 
-        if(intent.getStringExtra("WL") == "W") {
-            text.setText("Sie haben gewonnen!\r\nIhre Zeit betrug " + String.valueOf(intent.getLongExtra("estimatedTime", 100) / 1000000) + "ms\r\nberühren Sie den Text um das Spiel neuzustarten");
+        if(intent.getStringExtra("WL").equals("W")) {
+            text.setText("Sie haben gewonnen!\r\nIhr Highscore war " + String.format(Locale.GERMANY,"%,.0f",intent.getDoubleExtra("highscore", 0)) + "\r\nIhre Zeit betrug " + String.valueOf(intent.getLongExtra("estimatedTime", 100) / 1000000) + "ms\r\nberühren Sie den Text um das Spiel neuzustarten");
         } else {
             text.setText("Sie haben verloren!\r\nIhre Zeit betrug " + String.valueOf(intent.getLongExtra("estimatedTime", 100) / 1000000) + "ms\r\nberühren Sie den Text um das Spiel neuzustarten");
         }
