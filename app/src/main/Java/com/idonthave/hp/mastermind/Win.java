@@ -3,25 +3,23 @@ package com.idonthave.hp.mastermind;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
 /* Pop Class to Choose Color */
 public class Win extends Activity {
 
-    /* ToDo:
-        colors needs to be fetched from the intent!!!!
-     */
-    final Integer colors[] = { R.drawable.blue , R.drawable.red, R.drawable.brown, R.drawable.green, R.drawable.yellow, R.drawable.orange };
+    private DBHelper mydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        mydb = new DBHelper(this);
 
         setContentView(R.layout.popup);
 
@@ -29,9 +27,7 @@ public class Win extends Activity {
 
         final Intent intent = getIntent();
 
-        getWindow().setLayout(intent.getIntExtra("width", 10), intent.getIntExtra("height", 10)+100);
-
-        final String color = intent.getStringExtra("colors");
+        getWindow().setLayout(intent.getIntExtra("width", 10), intent.getIntExtra("height", 10)+500);
 
 //        TextView t = new TextView(this);
 //        t.setText(String.valueOf(colors.length));
@@ -41,7 +37,19 @@ public class Win extends Activity {
         rl.addView(text);
 
         if(intent.getStringExtra("WL").equals("W")) {
-            text.setText("Sie haben gewonnen!\r\nIhr Highscore war " + String.format(Locale.GERMANY,"%,.0f",intent.getDoubleExtra("highscore", 0)) + "\r\nIhre Zeit betrug " + String.valueOf(intent.getLongExtra("estimatedTime", 100) / 1000000) + "ms\r\nberühren Sie den Text um das Spiel neuzustarten");
+            if(intent.getBooleanExtra("allowHighscore", false)){
+                if(!mydb.insertHighscore(String.format(Locale.GERMANY,"%012.0f",intent.getDoubleExtra("highscore", 0)))){
+                    Toast.makeText(getApplicationContext(), "Error saving to Database",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+            text.setText(mydb.numberOfRows() + " Sie haben gewonnen!\r\nIhr Highscore war " + String.format(Locale.GERMANY,"%012.0f",intent.getDoubleExtra("highscore", 0)) + "\r\nIhre Zeit betrug " + String.valueOf(intent.getLongExtra("estimatedTime", 100) / 1000000) + "ms\r\nberühren Sie den Text um das Spiel neuzustarten");
+            String old=text.getText().toString();
+            String[] top10 = mydb.getTopHighscores();
+            for (int i=0;i<top10.length;i++){
+                old += "\r\n" +i + " " + top10[i];
+            }
+            text.setText(old);
         } else {
             text.setText("Sie haben verloren!\r\nIhre Zeit betrug " + String.valueOf(intent.getLongExtra("estimatedTime", 100) / 1000000) + "ms\r\nberühren Sie den Text um das Spiel neuzustarten");
         }
