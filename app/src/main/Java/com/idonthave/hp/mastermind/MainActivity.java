@@ -19,8 +19,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.math.BigInteger;
 import java.util.Random;
 
 public class MainActivity extends Activity {
@@ -44,9 +42,13 @@ public class MainActivity extends Activity {
     public static Integer answerID = 0;
     public static long startTime;
 
+    private DBHelper mydb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mydb = new DBHelper(this);
 
         setContentView(R.layout.activity_main);
 
@@ -73,6 +75,7 @@ public class MainActivity extends Activity {
             numberOfColors++;
         }
         highscore = 0;
+        allowHighscore = true;
 
         int continueGame = settings.getInt("continueGame", 0);
 
@@ -183,37 +186,6 @@ public class MainActivity extends Activity {
                 if (i==guess){
                     btn[i][j].setBackgroundResource(R.drawable.active_circle);
 
-                    /* Shadow -> Needs more Work
-                    TextView shadow = new TextView(this);
-                    rl.addView(shadow);
-//                btn[i][j].setText(pin);
-                    shadow.setBackgroundResource(R.drawable.shadow);
-                    shadow.setId(i*10+j+2000);
-                    shadow.setMinimumWidth(1);
-                    shadow.setWidth(widthOfSlot);
-                    shadow.setMinHeight(1);
-                    shadow.setHeight(widthOfSlot);
-                    shadow.setIncludeFontPadding(false);
-                    shadow.setGravity(Gravity.CENTER_VERTICAL);
-                    shadow.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizeOfSlot);
-                    btn[i][j].bringToFront();
-                    LayoutParams lp2 = (LayoutParams) shadow.getLayoutParams();
-                    lp2.setMargins(0, 0,0,0);
-                    if(j==0){
-                        lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT,1);
-                    } else {
-                        lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT,0);
-                        lp2.addRule(RelativeLayout.RIGHT_OF,btn[i][j-1].getId());
-                    }
-                    if(i==0){
-                        lp2.addRule(RelativeLayout.ALIGN_PARENT_TOP,1);
-                    } else {
-                        lp2.addRule(RelativeLayout.ALIGN_PARENT_TOP,0);
-                        lp2.addRule(RelativeLayout.BELOW,btn[i-1][j].getId());
-                    }
-                    shadow.setLayoutParams(lp2); */
-
-
 
                     btn[i][j].setOnClickListener(new View.OnClickListener(){
                         @Override
@@ -309,10 +281,22 @@ public class MainActivity extends Activity {
                             black++;
                             highscore = highscore + Math.pow(2,37-guess);
                             if(allowDuplicates){
-                                highscore = highscore + (Math.pow(2,37-guess)/4);
+                                double addToHighscore = (Math.pow(2,37-guess)/4);
+                                if(addToHighscore > 1){
+                                    highscore = highscore + addToHighscore;
+                                } else {
+                                    highscore = highscore + 1;
+                                }
+
                             }
                             if(allowEmpty){
-                                highscore = highscore + (Math.pow(2,37-guess)/8);
+                                double addToHighscore = (Math.pow(2,37-guess)/8);
+                                if(addToHighscore > 1){
+                                    highscore = highscore + addToHighscore;
+                                } else {
+                                    highscore = highscore + 1;
+                                }
+
                             }
                         }
                     }
@@ -324,10 +308,20 @@ public class MainActivity extends Activity {
                                 white++;
                                 highscore = highscore + Math.pow(2,36-guess);
                                 if(allowDuplicates){
-                                    highscore = highscore + (Math.pow(2,36-guess)/4);
+                                    double addToHighscore = (Math.pow(2,36-guess)/4);
+                                    if(addToHighscore > 1){
+                                        highscore = highscore + addToHighscore;
+                                    } else {
+                                        highscore = highscore + 1;
+                                    }
                                 }
                                 if(allowEmpty){
-                                    highscore = highscore + (Math.pow(2,36-guess)/8);
+                                    double addToHighscore = (Math.pow(2,36-guess)/8);
+                                    if(addToHighscore > 1){
+                                        highscore = highscore + addToHighscore;
+                                    } else {
+                                        highscore = highscore + 1;
+                                    }
                                 }
                                 break;
                             }
@@ -336,6 +330,10 @@ public class MainActivity extends Activity {
                     if(black == numberOfSlots){
                         // ToDO: win = true and call win.java after creating numberofSlots black pins
                         long estimatedTime = System.nanoTime() - startTime;
+                        highscore = highscore + (Math.pow(2,37-guess)*(numberOfSlots/2));
+                        if (highscore > 999999999999.0){
+                            highscore = 999999999999.0;
+                        }
                         Intent win = new Intent(MainActivity.this, Win.class);
                         win.putExtra("width", widthOfPopup);
                         win.putExtra("height", widthOfPopupSlot);
@@ -343,6 +341,7 @@ public class MainActivity extends Activity {
                         win.putExtra("slotHeight", widthOfPopupSlot);
                         win.putExtra("textSize", textSizeOfPopupSlot);
                         win.putExtra("marginOfPopupSlot", marginOfPopupSlot);
+                        win.putExtra("allowHighscore", allowHighscore);
                         win.putExtra("pin", pin);
                         win.putExtra("WL","W");
                         win.putExtra("estimatedTime", estimatedTime);
@@ -406,6 +405,7 @@ public class MainActivity extends Activity {
                         win.putExtra("pin", pin);
                         win.putExtra("estimatedTime", estimatedTime);
                         win.putExtra("WL","L");
+                        win.putExtra("allowHighscore", allowHighscore);
                         //popup.putExtra("ID", v.getId());
                         for (int j=0;j<btn[0].length;j++){
                             btn[0][j].setBackgroundResource(colors[hiddenAnswer[j]]);
