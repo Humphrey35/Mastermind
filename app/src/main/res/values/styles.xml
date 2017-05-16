@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="android:Theme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorStyleWhite</item>
         <item name="colorPrimaryDark">@color/colorStyleDarkGrey</item>
@@ -10,6 +10,12 @@
     <style name="AppTheme.popupwindow">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <style name="AppTheme.GreenAccent">
+        <item name="colorPrimary">@color/colorStyleDarkGreen</item>
+        <item name="colorPrimaryDark">@color/colorStyleDarkGreen</item>
+        <item name="colorAccent">@color/colorStyleDarkGreen</item>
     </style>
 
 </resources>

@@ -13,6 +13,7 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -251,7 +252,7 @@ public class MainActivity extends Activity {
 
             add clickListener to the next Row
          */
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
+        ImageButton myFab = (ImageButton) findViewById(R.id.fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean completeRow = true;
@@ -460,7 +461,7 @@ public class MainActivity extends Activity {
 
             add clickListener to the next Row
          */
-        FloatingActionButton myFab2 = (FloatingActionButton) findViewById(R.id.undo);
+        ImageButton myFab2 = (ImageButton) findViewById(R.id.undo);
         myFab2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (guess > 1) {

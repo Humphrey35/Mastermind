@@ -11,8 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="48dp"
+        android:clickable="true"
         android:max="2"
+        android:progressBackgroundTint="@color/colorStyleDarkGreen"
         android:thumbTint="@color/colorStyleDarkGreen" />
 
     <SeekBar
@@ -22,8 +24,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/seekBar"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="48dp"
         android:max="4"
+        android:progressBackgroundTint="@color/colorStyleDarkGreen"
         android:thumbTint="@color/colorStyleDarkGreen" />
 
     <SeekBar
@@ -34,7 +37,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/seekBar2"
         android:layout_marginTop="48dp"
-        android:thumbTint="@color/colorStyleDarkGreen" />
+        android:thumbTint="@color/colorStyleDarkGreen"
+        android:progressBackgroundTint="@color/colorStyleDarkGreen" />
 
     <TextView
         android:id="@+id/textView"
@@ -70,13 +74,13 @@
 
     <Button
         android:id="@+id/start"
-        android:layout_width="wrap_content"
+        android:layout_width="128dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/duplicates"
+        android:layout_below="@+id/emptySlots"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="86dp"
+        android:layout_marginTop="48dp"
         android:backgroundTint="@color/colorStyleBlue"
-        android:text="Spiel starten" />
+        android:text="@string/play" />
 
     <CheckBox
         android:id="@+id/duplicates"
@@ -85,10 +89,10 @@
         android:layout_alignLeft="@+id/textView4"
         android:layout_alignStart="@+id/textView4"
         android:layout_below="@+id/textView4"
-        android:layout_marginTop="22dp"
-        android:text="Doppelte Zulassen"
+        android:layout_marginTop="24dp"
+        android:text="@string/allow_duplicate"
         android:textColor="@color/colorStyleDarkGrey"
-        app:buttonTint="@color/colorStyleOrange" />
+        android:buttonTint="@color/colorStyleOrange" />
 
     <CheckBox
         android:id="@+id/emptySlots"
@@ -97,8 +101,9 @@
         android:layout_alignLeft="@+id/duplicates"
         android:layout_alignStart="@+id/duplicates"
         android:layout_below="@+id/duplicates"
+        android:layout_marginTop="8dp"
         android:text="Leere Felder zulassen"
         android:textColor="@color/colorStyleDarkGrey"
-        app:buttonTint="@color/colorStyleOrange" />
+        android:buttonTint="@color/colorStyleOrange" />
 
 </RelativeLayout>

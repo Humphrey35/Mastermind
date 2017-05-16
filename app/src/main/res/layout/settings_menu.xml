@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorStyleWhite">
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="48dp"
+        android:clickable="true"
+        android:max="2" />
+
+
+    <SeekBar
+        android:id="@+id/seekBar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/seekBar"
+        android:layout_marginTop="48dp"
+        android:max="4" />
+
+    <SeekBar
+        android:id="@+id/seekBar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/seekBar2"
+        android:layout_marginTop="48dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/seekBar"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:text="@string/lorem"
+        android:textColor="@color/colorStyleBlack" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/seekBar2"
+        android:text="@string/lorem"
+        android:textColor="@color/colorStyleBlack" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lorem"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/seekBar3"
+        android:textColor="@color/colorStyleBlack"/>
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emptySlots"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:background="@color/colorStyleBlue"
+        android:text="@string/play" />
+
+    <CheckBox
+        android:id="@+id/duplicates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="24dp"
+        android:text="@string/allow_duplicate"
+        android:textColor="@color/colorStyleBlack" />
+
+    <CheckBox
+        android:id="@+id/emptySlots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/duplicates"
+        android:layout_alignStart="@+id/duplicates"
+        android:layout_below="@+id/duplicates"
+        android:layout_marginTop="8dp"
+        android:text="@string/allow_empty"
+        android:textColor="@color/colorStyleBlack" />
+
+</RelativeLayout>

@@ -1,10 +1,18 @@
 <resources>
-    <string name="app_name">TestMastermind</string>
+    <string name="app_name">Mastermind</string>
+
     <string name="play">Play</string>
     <string name="settings">Settings</string>
     <string name="scoreboard">Scoreboard</string>
     <string name="rules">Rules</string>
     <string name="icon_description">Head with visible brain and starting colors</string>
+    <string name="player">Player</string>
+    <string name="date">Date</string>
+    <string name="score">Score</string>
+    <string name="allow_duplicate">Doppelte Zulassen</string>
+    <string name="lorem">lorem ipsum</string>
+    <string name="allow_empty">Leere Felder zulassen</string>
+
     <string-array name="colors">
         <item>blue</item>
         <item>brown</item>
