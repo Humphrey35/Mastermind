@@ -12,11 +12,6 @@ import android.widget.TextView;
 /* Pop Class to Choose Color */
 public class Pop extends Activity {
 
-    /* ToDo:
-        colors needs to be fetched from the intent!!!!
-     */
-    final Integer colors[] = { R.drawable.blue , R.drawable.red, R.drawable.brown, R.drawable.green, R.drawable.yellow, R.drawable.orange };
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

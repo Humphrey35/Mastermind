@@ -3,10 +3,15 @@ package com.idonthave.hp.mastermind;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -24,6 +29,7 @@ public class SettingsActivity extends Activity {
     private Button start;
     private CheckBox duplicates;
     private CheckBox emptySlots;
+    private TextView[] btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,10 @@ public class SettingsActivity extends Activity {
 
         duplicates.setChecked(settings.getBoolean("allowDuplicates", true));
         emptySlots.setChecked(settings.getBoolean("allowEmpty", false));
+
+        btn = new TextView[9];
+        createColorPicker(getSeekbarColor(seekBarNumberOfColors.getProgress()));
+        resetColors();
 
         // Initialize the textview with '0'.
 
@@ -62,6 +72,7 @@ public class SettingsActivity extends Activity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 textViewNumberOfColors.setText("Anzahl Farben: " + progress);
+                hideAndShow(progress);
                 editor.putInt("numberOfColors",progress);
                 editor.commit();
             }
@@ -200,5 +211,72 @@ public class SettingsActivity extends Activity {
             case 8: r = 4;break;
         }
         return r;
+    }
+
+    private void createColorPicker(int numberOfColors){
+
+        RelativeLayout rl = (RelativeLayout) findViewById(R.id.rlsettings);
+        // init Display Size and calculate sizes
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        final int width = size.x;
+
+        final int marginOfSlot = Math.round((width/(8))*0.1f); // 10% Margin of the Size of one Slot as Margin in between
+        final int widthOfSlot = (width/(8))-marginOfSlot;
+
+        for (int i=1;i<9;i++) {
+            btn[i] = new TextView(this);
+            rl.addView(btn[i]);
+            btn[i].setBackgroundResource(R.drawable.circle);
+            btn[i].setId(i+1+90);
+            btn[i].setMinimumWidth(1);
+            btn[i].setWidth(widthOfSlot);
+            btn[i].setMinHeight(1);
+            btn[i].setHeight(widthOfSlot);
+            btn[i].setIncludeFontPadding(false);
+            btn[i].setGravity(Gravity.CENTER_VERTICAL);
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) btn[i].getLayoutParams();
+            lp.setMargins(marginOfSlot, 70, 0, 0);
+            lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+            if (i>1) {
+                lp.addRule(RelativeLayout.RIGHT_OF, btn[i - 1].getId());
+            } else {
+                lp.addRule(RelativeLayout.RIGHT_OF, R.id.textView5);
+            }
+            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+            lp.addRule(RelativeLayout.BELOW, R.id.seekBar);
+            btn[i].setLayoutParams(lp);
+        }
+    }
+
+    private void resetColors(){
+        btn[1].setBackgroundResource(R.drawable.blue);
+        btn[2].setBackgroundResource(R.drawable.brown);
+        btn[3].setBackgroundResource(R.drawable.grass);
+        btn[4].setBackgroundResource(R.drawable.green);
+        btn[5].setBackgroundResource(R.drawable.orange);
+        btn[6].setBackgroundResource(R.drawable.pink);
+        btn[7].setBackgroundResource(R.drawable.purple);
+        btn[8].setBackgroundResource(R.drawable.red);
+    }
+
+    private void hideAndShow(int number){
+        if (number == 5){
+            btn[6].setVisibility(View.GONE);
+            btn[7].setVisibility(View.GONE);
+            btn[8].setVisibility(View.GONE);
+            resetColors();
+        } else if (number == 6) {
+            btn[6].setVisibility(View.VISIBLE);
+            btn[7].setVisibility(View.GONE);
+            btn[8].setVisibility(View.GONE);
+            resetColors();
+        } else {
+            btn[6].setVisibility(View.VISIBLE);
+            btn[7].setVisibility(View.VISIBLE);
+            btn[8].setVisibility(View.VISIBLE);
+            resetColors();
+        }
     }
 }
