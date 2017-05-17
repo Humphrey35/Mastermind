@@ -44,7 +44,8 @@
         android:layout_below="@+id/seekBar"
         android:layout_marginLeft="27dp"
         android:layout_marginStart="27dp"
-        android:text="TextView" />
+        android:text="@string/lorem"
+        android:textColor="@color/colorStyleBlack"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -60,11 +61,11 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignStart="@+id/textView2"
         android:layout_below="@+id/seekBar3"
-        android:textColor="@color/colorStyleDarkGrey"/>
+        android:text="@string/lorem"
+        android:textColor="@color/colorStyleDarkGrey" />
 
     <TextView
         android:id="@+id/textView5"
@@ -79,9 +80,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/emptySlots"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
         android:background="@color/colorStyleBlue"
-        android:text="@string/play"
-        android:layout_marginTop="26dp" />
+        android:text="@string/play" />
 
     <CheckBox
         android:id="@+id/duplicates"
@@ -104,5 +105,17 @@
         android:layout_marginTop="8dp"
         android:text="@string/allow_empty"
         android:textColor="@color/colorStyleBlack" />
+
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/start"
+        android:layout_alignLeft="@+id/start"
+        android:layout_alignRight="@+id/start"
+        android:layout_alignStart="@+id/start"
+        android:layout_below="@+id/start"
+        android:layout_marginTop="19dp"
+        android:text="Continue" />
 
 </RelativeLayout>

@@ -18,11 +18,14 @@ public class Pop extends Activity {
 
         setContentView(R.layout.popup);
 
+        setTitle("");
+
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.text12);
 
         final Intent intent = getIntent();
 
         getWindow().setLayout(intent.getIntExtra("width", 10), intent.getIntExtra("height", 10));
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         final int colors[] = intent.getIntArrayExtra("colorsArray");
 

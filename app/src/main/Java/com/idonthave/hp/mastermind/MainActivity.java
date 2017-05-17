@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -20,6 +19,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends Activity {
@@ -33,6 +34,7 @@ public class MainActivity extends Activity {
     public static boolean allowDuplicates;
     public static boolean allowHighscore;
     public static boolean againstPlayer;
+    public static boolean continueGame;
     public static double highscore = 0;
     public static int colors[];
     public static String pin;
@@ -42,6 +44,8 @@ public class MainActivity extends Activity {
     Integer[] hiddenAnswer;
     public static Integer answerID = 0;
     public static long startTime;
+    public static String colorString;
+    public static int[] AllColors;
 
     private DBHelper mydb;
 
@@ -51,9 +55,11 @@ public class MainActivity extends Activity {
 
         mydb = new DBHelper(this);
 
-        setContentView(R.layout.activity_main);
+        final Intent intent = getIntent();
+        continueGame = intent.getBooleanExtra("continueGame", true);
+        againstPlayer = intent.getBooleanExtra("againstPlayer",false);
 
-        final int AllColors[] = { R.drawable.blue, R.drawable.brown, R.drawable.grass, R.drawable.green, R.drawable.orange, R.drawable.pink, R.drawable.purple, R.drawable.red, R.drawable.sky, R.drawable.yellow };
+        setContentView(R.layout.activity_main);
 
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl);
         ScrollView sc = (ScrollView) findViewById(R.id.sc);
@@ -63,22 +69,48 @@ public class MainActivity extends Activity {
         sc.setBackgroundColor(Color.WHITE);
         ll.setBackgroundColor(Color.WHITE);
 
-        // Settings ToDo: Cleanup. Color no longer needed.
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+        AllColors = new int[]{ settings.getInt("Color0",R.drawable.blue), settings.getInt("Color1",R.drawable.brown), settings.getInt("Color2",R.drawable.grass), settings.getInt("Color3",R.drawable.green), settings.getInt("Color4",R.drawable.orange), settings.getInt("Color5",R.drawable.pink), settings.getInt("Color6",R.drawable.purple), settings.getInt("Color7",R.drawable.red), settings.getInt("Color8",R.drawable.sky), settings.getInt("Color9",R.drawable.yellow) };
+
+        for (int h=0;h<AllColors.length;h++){
+            if (h==0){
+                colorString = String.valueOf(AllColors[h]);
+            } else {
+                colorString += ","+String.valueOf(AllColors[h]);
+            }
+        }
 
         numberOfColors = settings.getInt("numberOfColors", 6);
         numberOfSlots = settings.getInt("numberOfSlots", 4);
         numberOfTries = settings.getInt("numberOfTries", 9)+2;
-        againstPlayer = settings.getBoolean("againstPlayer", false);
         allowDuplicates = settings.getBoolean("allowDuplicates", true);
         allowEmpty = settings.getBoolean("allowEmpty", false);
         if (allowEmpty){
             numberOfColors++;
         }
-        highscore = 0;
         allowHighscore = true;
+        highscore = 0;
 
-        int continueGame = settings.getInt("continueGame", 0);
+        if (continueGame){
+            String[] savedConfig = mydb.getSavedgame();
+            numberOfTries = Integer.valueOf(savedConfig[0]);
+            numberOfSlots = Integer.valueOf(savedConfig[1]);
+            numberOfColors = Integer.valueOf(savedConfig[2]);
+            colorString = savedConfig[3];
+            allowDuplicates = Boolean.valueOf(savedConfig[4]);
+            allowEmpty = Boolean.valueOf(savedConfig[5]);
+            allowHighscore = Boolean.valueOf(savedConfig[6]);
+            String[] tmp = colorString.split(",");
+            for (int i=0;i<10;i++){
+                AllColors[i] = Integer.valueOf(tmp[i]);
+            }
+        } else {
+            mydb.deleteAllSavedgame();
+            mydb.deleteAllSavedmove();
+            mydb.insertSavedgame(String.valueOf(numberOfTries), String.valueOf(numberOfColors),String.valueOf(numberOfSlots),colorString,String.valueOf(allowDuplicates),String.valueOf(allowEmpty),String.valueOf(allowHighscore),String.valueOf(highscore));
+            mydb.close();
+        }
 
         colors = new int[numberOfColors];
 
@@ -114,11 +146,28 @@ public class MainActivity extends Activity {
         // get an System Time that cannot(!) be changed (though changing the System Clock)
         startTime = System.nanoTime();
 
-        // Random Combination (with dupes check): ToDo: Duell Modus
+        // Random Combination (with dupes check)
         if(!againstPlayer) {
-            createRandomAnswer();
+            if (!continueGame) {
+                createRandomAnswer();
+                mydb.deleteAllHidden();
+                for (int i = 0; i < hiddenAnswer.length; i++) {
+                    mydb.insertHidden(String.valueOf(hiddenAnswer[i]));
+                }
+                mydb.close();
+            } else {
+                ArrayList<String> h = mydb.getHidden();
+                for (int i=0;i<h.size();i++) {
+                    hiddenAnswer[i] = Integer.valueOf(h.get(i));
+                }
+                mydb.close();
+            }
         } else {
-            // ToDo
+            ArrayList<String> h = mydb.getHidden();
+            for (int i=0;i<h.size();i++) {
+                hiddenAnswer[i] = Integer.valueOf(h.get(i));
+            }
+            mydb.close();
         }
 
         // init Display Size and calculate sizes
@@ -127,8 +176,8 @@ public class MainActivity extends Activity {
         display.getSize(size);
         final int width = size.x;
 
-        final int marginOfSlot = Math.round((width/(numberOfSlots+1))*0.1f); // 10% Margin of the Size of one Slot as Margin in between
-        final int widthOfSlot = (width/(numberOfSlots+1))-marginOfSlot;
+        final int marginOfSlot = Math.round((width/(numberOfSlots+2))*0.1f); // 10% Margin of the Size of one Slot as Margin in between
+        final int widthOfSlot = (width/(numberOfSlots+2))-marginOfSlot;
         final int marginOfPopupSlot = Math.round((width/(numberOfColors+1))*0.1f);
         final int widthOfPopup = (width/(numberOfColors+1))*numberOfColors;
         final int widthOfPopupSlot = (width/(numberOfColors+1))-marginOfPopupSlot;
@@ -151,7 +200,6 @@ public class MainActivity extends Activity {
             BoardSlots id convention: i*10+j+1 ==   1 2 3 4
                                                     11 12 13 14
                                                     etc
-            ToDo: Show Answer when done.
             ToDo: Cleanup TextSize relevant Stuff
          */
         for (int i=0;i<btn.length;i++){
@@ -252,7 +300,7 @@ public class MainActivity extends Activity {
 
             add clickListener to the next Row
          */
-        ImageButton myFab = (ImageButton) findViewById(R.id.fab);
+        final ImageButton myFab = (ImageButton) findViewById(R.id.fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean completeRow = true;
@@ -329,7 +377,6 @@ public class MainActivity extends Activity {
                         }
                     }
                     if(black == numberOfSlots){
-                        // ToDO: win = true and call win.java after creating numberofSlots black pins
                         long estimatedTime = System.nanoTime() - startTime;
                         highscore = highscore + (Math.pow(2,37-guess)*(numberOfSlots/2));
                         if (highscore > 999999999999.0){
@@ -441,6 +488,13 @@ public class MainActivity extends Activity {
                                 }
                             });
                         }
+                        // Savegame & Savemode
+                        if (!continueGame){
+                            for (int g=0;g<numberOfSlots;g++){
+                                mydb.insertSavedmove(String.valueOf(guesses[guess-1][g]),String.valueOf(guess-1),String.valueOf(g));
+                            }
+                            mydb.close();
+                        }
                     }
                 } else {
                     StringBuilder sb = new StringBuilder();
@@ -466,6 +520,9 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 if (guess > 1) {
                     allowHighscore = false;
+                    mydb.deleteAllSavedgame();
+                    mydb.insertSavedgame(String.valueOf(numberOfTries), String.valueOf(numberOfColors),String.valueOf(numberOfSlots),colorString,String.valueOf(allowDuplicates),String.valueOf(allowEmpty),String.valueOf(allowHighscore),String.valueOf(highscore));
+                    mydb.close();
                     RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl);
                     for (int j = 0; j < btn[guess].length; j++) {
                         btn[guess][j].setBackgroundResource(R.drawable.circle);
@@ -507,6 +564,21 @@ public class MainActivity extends Activity {
                 }
             }
         });
+        if (continueGame){
+            ArrayList<String> moves = mydb.getSavedmove();
+            mydb.close();
+            for (int i=0;i<moves.size();i=i+3){
+                btn[Integer.valueOf(moves.get(i+1))][Integer.valueOf(moves.get(i+2))].setBackgroundResource(AllColors[Integer.valueOf(moves.get(i))]);
+                guesses[Integer.valueOf(moves.get(i+1))][Integer.valueOf(moves.get(i+2))] = Integer.valueOf(moves.get(i));
+                if (i+4<moves.size()){
+                    if (!moves.get(i+1).equals(moves.get(i+4))){
+                        myFab.performClick();
+                    }
+                }
+            }
+            myFab.performClick();
+            continueGame = false;
+        }
     }
 
     /*
@@ -563,30 +635,23 @@ public class MainActivity extends Activity {
         Get information of the Popup and set color.
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        // TODO Auto-generated method stub
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // check if the request code is same as what is passed  here it is 2
-        if(requestCode==200)
-        {
-            if(resultCode == 200){
+        if (requestCode == 200) {
+            if (resultCode == 200) {
                 // fetch the message String
                 Integer id = data.getIntExtra("ID", 1);
                 TextView t = (TextView) findViewById(id);
                 t.setBackgroundResource(data.getIntExtra("COLOR", R.drawable.circle));
-                guesses[guess][(id%10)-1] = data.getIntExtra("COLORID", 0);
+                guesses[guess][(id % 10) - 1] = data.getIntExtra("COLORID", 0);
             }
         }
-        if(requestCode==300){
-            if(resultCode == 200){
+        if (requestCode == 300) {
+            if (resultCode == 200) {
                 recreate();
             }
         }
     }
-
-
-
-
 }

@@ -27,9 +27,12 @@ public class SettingsActivity extends Activity {
     private SeekBar seekBarNumberOfTries;
     private TextView textViewNumberOfTries;
     private Button start;
+    private Button continueButton;
     private CheckBox duplicates;
     private CheckBox emptySlots;
     private TextView[] btn;
+    private int AllColors[];
+    private int colors[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +50,14 @@ public class SettingsActivity extends Activity {
         duplicates.setChecked(settings.getBoolean("allowDuplicates", true));
         emptySlots.setChecked(settings.getBoolean("allowEmpty", false));
 
+        AllColors = new int[]{ settings.getInt("Color0", R.drawable.blue), settings.getInt("Color1", R.drawable.brown), settings.getInt("Color2", R.drawable.grass), settings.getInt("Color3", R.drawable.green), settings.getInt("Color4", R.drawable.orange), settings.getInt("Color5", R.drawable.pink), settings.getInt("Color6", R.drawable.purple), settings.getInt("Color7", R.drawable.red), settings.getInt("Color8", R.drawable.sky), settings.getInt("Color9", R.drawable.yellow) };
+
+        colors = getUnusedColors(getSeekbarColor(seekBarNumberOfColors.getProgress()));
+
         btn = new TextView[9];
         createColorPicker(getSeekbarColor(seekBarNumberOfColors.getProgress()));
-        resetColors();
+        hideAndShow(getSeekbarColor(seekBarNumberOfColors.getProgress()));
+        colors = getUnusedColors(getSeekbarColor(seekBarNumberOfColors.getProgress()));
 
         // Initialize the textview with '0'.
 
@@ -73,6 +81,7 @@ public class SettingsActivity extends Activity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 textViewNumberOfColors.setText("Anzahl Farben: " + progress);
                 hideAndShow(progress);
+                colors = getUnusedColors(progress);
                 editor.putInt("numberOfColors",progress);
                 editor.commit();
             }
@@ -132,6 +141,19 @@ public class SettingsActivity extends Activity {
             public void onClick(View v) {
                 if (getSeekbarSlots(seekBarNumberOfSlots.getProgress())<=getSeekbarColor(seekBarNumberOfColors.getProgress()) || duplicates.isChecked()){
                     Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                    intent.putExtra("continueGame",false);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        continueButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (getSeekbarSlots(seekBarNumberOfSlots.getProgress())<=getSeekbarColor(seekBarNumberOfColors.getProgress()) || duplicates.isChecked()){
+                    Intent intent = new Intent(SettingsActivity.this, DuellActivity.class);
+                    intent.putExtra("continueGame",true);
                     startActivity(intent);
                 }
             }
@@ -167,6 +189,7 @@ public class SettingsActivity extends Activity {
         start = (Button) findViewById(R.id.start);
         duplicates = (CheckBox) findViewById(R.id.duplicates);
         emptySlots = (CheckBox) findViewById(R.id.emptySlots);
+        continueButton = (Button) findViewById(R.id.continueButton);
     }
 
     private int getSeekbarColor(int seek){
@@ -224,11 +247,14 @@ public class SettingsActivity extends Activity {
 
         final int marginOfSlot = Math.round((width/(8))*0.1f); // 10% Margin of the Size of one Slot as Margin in between
         final int widthOfSlot = (width/(8))-marginOfSlot;
+        final int marginOfPopupSlot = Math.round((width/(numberOfColors+1))*0.1f);
+        final int widthOfPopup = (width/(numberOfColors+1))*numberOfColors;
+        final int widthOfPopupSlot = (width/(numberOfColors+1))-marginOfPopupSlot;
 
         for (int i=1;i<9;i++) {
             btn[i] = new TextView(this);
             rl.addView(btn[i]);
-            btn[i].setBackgroundResource(R.drawable.circle);
+            btn[i].setBackgroundResource(AllColors[i-1]);
             btn[i].setId(i+1+90);
             btn[i].setMinimumWidth(1);
             btn[i].setWidth(widthOfSlot);
@@ -247,36 +273,76 @@ public class SettingsActivity extends Activity {
             lp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
             lp.addRule(RelativeLayout.BELOW, R.id.seekBar);
             btn[i].setLayoutParams(lp);
+            btn[i].setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Intent popup = new Intent(SettingsActivity.this, Pop.class);
+                    popup.putExtra("width", widthOfPopup);
+                    popup.putExtra("height", widthOfPopupSlot);
+                    popup.putExtra("slotWidth", widthOfPopupSlot);
+                    popup.putExtra("slotHeight", widthOfPopupSlot);
+                    popup.putExtra("marginOfPopupSlot", marginOfPopupSlot);
+                    popup.putExtra("colorsArray", colors);
+                    popup.putExtra("ID", v.getId());
+                    popup.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivityForResult(popup, 200);
+                }
+            });
         }
     }
 
-    private void resetColors(){
-        btn[1].setBackgroundResource(R.drawable.blue);
-        btn[2].setBackgroundResource(R.drawable.brown);
-        btn[3].setBackgroundResource(R.drawable.grass);
-        btn[4].setBackgroundResource(R.drawable.green);
-        btn[5].setBackgroundResource(R.drawable.orange);
-        btn[6].setBackgroundResource(R.drawable.pink);
-        btn[7].setBackgroundResource(R.drawable.purple);
-        btn[8].setBackgroundResource(R.drawable.red);
-    }
-
+    /* Hide and Show Colorpicker Options */
     private void hideAndShow(int number){
         if (number == 5){
             btn[6].setVisibility(View.GONE);
             btn[7].setVisibility(View.GONE);
             btn[8].setVisibility(View.GONE);
-            resetColors();
+
         } else if (number == 6) {
             btn[6].setVisibility(View.VISIBLE);
             btn[7].setVisibility(View.GONE);
             btn[8].setVisibility(View.GONE);
-            resetColors();
         } else {
             btn[6].setVisibility(View.VISIBLE);
             btn[7].setVisibility(View.VISIBLE);
             btn[8].setVisibility(View.VISIBLE);
-            resetColors();
+        }
+    }
+
+    private int[] getUnusedColors(int number){
+        int[] c = new int[10-number];
+        for (int i=9;i>=number;i--){
+            c[9-i] = AllColors[i];
+        }
+        return c;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==200)
+        {
+            if(resultCode == 200){
+                // fetch the message String
+                final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                final SharedPreferences.Editor editor = settings.edit();
+                Integer id = data.getIntExtra("ID", 1);
+                TextView t = (TextView) findViewById(id);
+                int tmp = AllColors[id-92];
+                int tnp = AllColors[9-data.getIntExtra("COLORID",0)];
+                t.setBackgroundResource(data.getIntExtra("COLOR", R.drawable.circle));
+                AllColors[id-92] = tnp;
+                AllColors[9-data.getIntExtra("COLORID",0)] = tmp;
+                colors = getUnusedColors(getSeekbarColor(seekBarNumberOfColors.getProgress()));
+                for (int i=0;i<10;i++){
+                    editor.putInt("Color"+String.valueOf(i),AllColors[i]);
+                    editor.apply();
+                }
+            }
         }
     }
 }
