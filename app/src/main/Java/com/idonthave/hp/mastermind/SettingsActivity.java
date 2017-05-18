@@ -265,8 +265,8 @@ public class SettingsActivity extends AppCompatActivity {
     private String getBoardColor(int seek){
         String r = "White";
         switch (seek){
-            case 0: r = "White";break;
-            case 1: r = "Brown";break;
+            case 0: r = "Weiß";break;
+            case 1: r = "Braun";break;
             case 2: r = "Orange";break;
         }
         return r;

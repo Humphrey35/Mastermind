@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorStyleWhite"
-    android:id="@+id/rlsettings">
+    android:background="@color/colorStyleWhite">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorStyleWhite"
+        android:id="@+id/rlsettings">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar5"
@@ -27,15 +32,15 @@
         android:clickable="true"
         android:max="2" />
 
-    <SeekBar
-        android:id="@+id/seekBar2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/seekBar"
-        android:layout_marginTop="88dp"
-        android:max="4" />
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/seekBar"
+            android:layout_marginTop="128dp"
+            android:max="4" />
 
     <SeekBar
         android:id="@+id/seekBar3"
@@ -141,5 +146,5 @@
         android:layout_marginTop="17dp"
         android:text="TextView"
         android:textColor="@color/colorStyleBlack"/>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
