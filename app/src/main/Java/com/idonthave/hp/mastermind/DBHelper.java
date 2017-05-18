@@ -30,6 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String SAVEDGAME_COLUMN_ALLOWEMPTY = "allowempty";
     public static final String SAVEDGAME_COLUMN_ALLOWHIGHSCORE = "allowhighscore";
     public static final String SAVEDGAME_COLUMN_HIGHSCORE = "highscore";
+    public static final String SAVEDGAME_COLUMN_OVAL = "oval";
 
     public static final String SAVEDMOVE_COLUMN_ID = "id";
     public static final String SAVEDMOVE_COLUMN_ROW = "row";
@@ -60,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         SAVEDGAME_COLUMN_ALLOWDUPLICATE +" text, "+
                         SAVEDGAME_COLUMN_ALLOWHIGHSCORE +" text, "+
                         SAVEDGAME_COLUMN_HIGHSCORE +" text, "+
+                        SAVEDGAME_COLUMN_OVAL +" text, "+
                         SAVEDGAME_COLUMN_ALLOWEMPTY +" text)"
         );
         db.execSQL(
@@ -94,7 +96,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertSavedgame (String numberoftries, String numberofcolors, String numberofslots, String colors, String allowduplicates, String allowempty, String allowhighscore, String highscore) {
+    public boolean insertSavedgame (String numberoftries, String numberofcolors, String numberofslots, String colors, String allowduplicates, String allowempty, String allowhighscore, String highscore, String ovalPins) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SAVEDGAME_COLUMN_NUMBEROFTRIES, numberoftries);
@@ -105,6 +107,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(SAVEDGAME_COLUMN_ALLOWEMPTY, allowempty);
         contentValues.put(SAVEDGAME_COLUMN_ALLOWHIGHSCORE, allowhighscore);
         contentValues.put(SAVEDGAME_COLUMN_HIGHSCORE, highscore);
+        contentValues.put(SAVEDGAME_COLUMN_OVAL, ovalPins);
         db.insert(SAVEDGAME_TABLE_NAME, null, contentValues);
         return true;
     }
@@ -174,14 +177,18 @@ public class DBHelper extends SQLiteOpenHelper {
             res.moveToNext();
             i++;
         }
+        while(i<10){
+            array_list[i] = "000000000000";
+            i++;
+        }
         return array_list;
     }
 
     public String [] getSavedgame(){
-        String[] array_list = new String[8];
+        String[] array_list = new String[9];
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select "+ SAVEDGAME_COLUMN_NUMBEROFTRIES +" , " + SAVEDGAME_COLUMN_NUMBEROFSLOTS +" , " + SAVEDGAME_COLUMN_NUMBEROFCOLORS + " , " + SAVEDGAME_COLUMN_COLORS +" , " + SAVEDGAME_COLUMN_ALLOWDUPLICATE + " , " + SAVEDGAME_COLUMN_ALLOWEMPTY + " , " + SAVEDGAME_COLUMN_ALLOWHIGHSCORE + " , " + SAVEDGAME_COLUMN_HIGHSCORE +" from "+ SAVEDGAME_TABLE_NAME +" desc LIMIT 1;", null );
+        Cursor res =  db.rawQuery( "select "+ SAVEDGAME_COLUMN_NUMBEROFTRIES +" , " + SAVEDGAME_COLUMN_NUMBEROFSLOTS +" , " + SAVEDGAME_COLUMN_NUMBEROFCOLORS + " , " + SAVEDGAME_COLUMN_COLORS +" , " + SAVEDGAME_COLUMN_ALLOWDUPLICATE + " , " + SAVEDGAME_COLUMN_ALLOWEMPTY + " , " + SAVEDGAME_COLUMN_ALLOWHIGHSCORE + " , " + SAVEDGAME_COLUMN_HIGHSCORE + " , " + SAVEDGAME_COLUMN_OVAL +" from "+ SAVEDGAME_TABLE_NAME +" desc LIMIT 1;", null );
         res.moveToFirst();
 
         array_list[0] = res.getString(res.getColumnIndex(SAVEDGAME_COLUMN_NUMBEROFTRIES));
@@ -192,6 +199,7 @@ public class DBHelper extends SQLiteOpenHelper {
         array_list[5] = res.getString(res.getColumnIndex(SAVEDGAME_COLUMN_ALLOWEMPTY));
         array_list[6] = res.getString(res.getColumnIndex(SAVEDGAME_COLUMN_ALLOWHIGHSCORE));
         array_list[7] = res.getString(res.getColumnIndex(SAVEDGAME_COLUMN_HIGHSCORE));
+        array_list[8] = res.getString(res.getColumnIndex(SAVEDGAME_COLUMN_OVAL));
         return array_list;
     }
 

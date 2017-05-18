@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:background="@color/colorStyleOrange"
         android:layout_marginTop="190dp"
-        android:text="Button" />
+        android:text="Versus starten" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

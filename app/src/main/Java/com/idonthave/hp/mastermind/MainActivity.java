@@ -1,6 +1,5 @@
 package com.idonthave.hp.mastermind;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -8,10 +7,15 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,9 +25,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     // Global Vars
     public static final String PREFS_NAME = "GameSettings";
@@ -35,6 +40,7 @@ public class MainActivity extends Activity {
     public static boolean allowHighscore;
     public static boolean againstPlayer;
     public static boolean continueGame;
+    public static boolean ovals;
     public static double highscore = 0;
     public static int colors[];
     public static String pin;
@@ -61,15 +67,32 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
+        setSupportActionBar(toolbar);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("Punkte: 000000000000");
+        }
+
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl);
         ScrollView sc = (ScrollView) findViewById(R.id.sc);
         LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
-
-        //rl.setBackgroundColor(Color.WHITE);
-        sc.setBackgroundColor(Color.WHITE);
-        ll.setBackgroundColor(Color.WHITE);
+        FrameLayout fl = (FrameLayout) findViewById(R.id.fl);
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.cl);
+        CoordinatorLayout co = (CoordinatorLayout) findViewById(R.id.main);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+        int boardColor = settings.getInt("boardColor",0);
+
+        switch (boardColor){
+            case 0:rl.setBackgroundColor(Color.WHITE);sc.setBackgroundColor(Color.WHITE);ll.setBackgroundColor(Color.WHITE);break;
+            case 1:rl.setBackgroundColor(Color.parseColor("#835249"));sc.setBackgroundColor(Color.parseColor("#835249"));ll.setBackgroundColor(Color.parseColor("#835249"));break;
+            case 2:rl.setBackgroundColor(Color.parseColor("#ffc184"));sc.setBackgroundColor(Color.parseColor("#ffc184"));ll.setBackgroundColor(Color.parseColor("#ffc184"));break;
+        }
 
         AllColors = new int[]{ settings.getInt("Color0",R.drawable.blue), settings.getInt("Color1",R.drawable.brown), settings.getInt("Color2",R.drawable.grass), settings.getInt("Color3",R.drawable.green), settings.getInt("Color4",R.drawable.orange), settings.getInt("Color5",R.drawable.pink), settings.getInt("Color6",R.drawable.purple), settings.getInt("Color7",R.drawable.red), settings.getInt("Color8",R.drawable.sky), settings.getInt("Color9",R.drawable.yellow) };
 
@@ -86,6 +109,7 @@ public class MainActivity extends Activity {
         numberOfTries = settings.getInt("numberOfTries", 9)+2;
         allowDuplicates = settings.getBoolean("allowDuplicates", true);
         allowEmpty = settings.getBoolean("allowEmpty", false);
+        ovals = settings.getBoolean("ovalPins",false);
         if (allowEmpty){
             numberOfColors++;
         }
@@ -101,6 +125,7 @@ public class MainActivity extends Activity {
             allowDuplicates = Boolean.valueOf(savedConfig[4]);
             allowEmpty = Boolean.valueOf(savedConfig[5]);
             allowHighscore = Boolean.valueOf(savedConfig[6]);
+            ovals = Boolean.valueOf(savedConfig[8]);
             String[] tmp = colorString.split(",");
             for (int i=0;i<10;i++){
                 AllColors[i] = Integer.valueOf(tmp[i]);
@@ -108,7 +133,7 @@ public class MainActivity extends Activity {
         } else {
             mydb.deleteAllSavedgame();
             mydb.deleteAllSavedmove();
-            mydb.insertSavedgame(String.valueOf(numberOfTries), String.valueOf(numberOfColors),String.valueOf(numberOfSlots),colorString,String.valueOf(allowDuplicates),String.valueOf(allowEmpty),String.valueOf(allowHighscore),String.valueOf(highscore));
+            mydb.insertSavedgame(String.valueOf(numberOfTries), String.valueOf(numberOfColors),String.valueOf(numberOfSlots),colorString,String.valueOf(allowDuplicates),String.valueOf(allowEmpty),String.valueOf(allowHighscore),String.valueOf(highscore),String.valueOf(ovals));
             mydb.close();
         }
 
@@ -178,6 +203,13 @@ public class MainActivity extends Activity {
 
         final int marginOfSlot = Math.round((width/(numberOfSlots+2))*0.1f); // 10% Margin of the Size of one Slot as Margin in between
         final int widthOfSlot = (width/(numberOfSlots+2))-marginOfSlot;
+        final int heighOfSlot;
+        if (ovals){
+            heighOfSlot = widthOfSlot/2;
+        } else {
+            heighOfSlot = widthOfSlot;
+        }
+
         final int marginOfPopupSlot = Math.round((width/(numberOfColors+1))*0.1f);
         final int widthOfPopup = (width/(numberOfColors+1))*numberOfColors;
         final int widthOfPopupSlot = (width/(numberOfColors+1))-marginOfPopupSlot;
@@ -213,7 +245,7 @@ public class MainActivity extends Activity {
                 btn[i][j].setMinimumWidth(1);
                 btn[i][j].setWidth(widthOfSlot);
                 btn[i][j].setMinHeight(1);
-                btn[i][j].setHeight(widthOfSlot);
+                btn[i][j].setHeight(heighOfSlot);
                 btn[i][j].setIncludeFontPadding(false);
                 btn[i][j].setGravity(Gravity.CENTER_VERTICAL);
                 btn[i][j].setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizeOfSlot);
@@ -241,9 +273,14 @@ public class MainActivity extends Activity {
                         public void onClick(View v) {
                             Intent popup = new Intent(MainActivity.this, Pop.class);
                             popup.putExtra("width", widthOfPopup);
-                            popup.putExtra("height", widthOfPopupSlot);
                             popup.putExtra("slotWidth", widthOfPopupSlot);
-                            popup.putExtra("slotHeight", widthOfPopupSlot);
+                            if (ovals){
+                                popup.putExtra("slotHeight", widthOfPopupSlot/2);
+                                popup.putExtra("height", widthOfPopupSlot/2);
+                            } else {
+                                popup.putExtra("slotHeight", widthOfPopupSlot);
+                                popup.putExtra("height", widthOfPopupSlot);
+                            }
                             popup.putExtra("textSize", textSizeOfPopupSlot);
                             popup.putExtra("marginOfPopupSlot", marginOfPopupSlot);
                             popup.putExtra("colorsArray", colors);
@@ -266,7 +303,7 @@ public class MainActivity extends Activity {
                         answer.setMinimumWidth(1);
                         answer.setWidth(widthOfSlot/(numberOfSlots/2));
                         answer.setMinHeight(1);
-                        answer.setHeight(widthOfSlot/(numberOfSlots/2));
+                        answer.setHeight(heighOfSlot/(numberOfSlots/2));
                         answer.setIncludeFontPadding(false);
                         answer.setGravity(Gravity.CENTER_VERTICAL);
                         answer.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizeAnswer);
@@ -345,7 +382,6 @@ public class MainActivity extends Activity {
                                 } else {
                                     highscore = highscore + 1;
                                 }
-
                             }
                         }
                     }
@@ -376,6 +412,7 @@ public class MainActivity extends Activity {
                             }
                         }
                     }
+                    getSupportActionBar().setTitle("Punkte: "+String.format(Locale.GERMANY,"%012.0f",highscore));
                     if(black == numberOfSlots){
                         long estimatedTime = System.nanoTime() - startTime;
                         highscore = highscore + (Math.pow(2,37-guess)*(numberOfSlots/2));
@@ -418,7 +455,7 @@ public class MainActivity extends Activity {
                             answer.setMinimumWidth(1);
                             answer.setWidth(widthOfSlot/(numberOfSlots/2));
                             answer.setMinHeight(1);
-                            answer.setHeight(widthOfSlot/(numberOfSlots/2));
+                            answer.setHeight(heighOfSlot/(numberOfSlots/2));
                             answer.setIncludeFontPadding(false);
                             answer.setGravity(Gravity.CENTER_VERTICAL);
                             answer.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizeAnswer);
@@ -501,7 +538,7 @@ public class MainActivity extends Activity {
                     for (Integer aHiddenAnswer : hiddenAnswer) {
                         sb.append(aHiddenAnswer);
                     }
-                    Toast.makeText(getApplicationContext(), sb.toString(),
+                    Toast.makeText(getApplicationContext(), "Bitte füllen sie die komplette Reihe",
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -521,7 +558,7 @@ public class MainActivity extends Activity {
                 if (guess > 1) {
                     allowHighscore = false;
                     mydb.deleteAllSavedgame();
-                    mydb.insertSavedgame(String.valueOf(numberOfTries), String.valueOf(numberOfColors),String.valueOf(numberOfSlots),colorString,String.valueOf(allowDuplicates),String.valueOf(allowEmpty),String.valueOf(allowHighscore),String.valueOf(highscore));
+                    mydb.insertSavedgame(String.valueOf(numberOfTries), String.valueOf(numberOfColors),String.valueOf(numberOfSlots),colorString,String.valueOf(allowDuplicates),String.valueOf(allowEmpty),String.valueOf(allowHighscore),String.valueOf(highscore),String.valueOf(ovals));
                     mydb.close();
                     RelativeLayout rl = (RelativeLayout) findViewById(R.id.rl);
                     for (int j = 0; j < btn[guess].length; j++) {
@@ -649,9 +686,28 @@ public class MainActivity extends Activity {
             }
         }
         if (requestCode == 300) {
-            if (resultCode == 200) {
-                recreate();
+            ImageButton myFab2 = (ImageButton) findViewById(R.id.undo);
+            final ImageButton myFab = (ImageButton) findViewById(R.id.fab);
+            myFab2.setOnClickListener(null);
+            myFab.setOnClickListener(null);
+            if (btn.length<guess) {
+                for (int i = 0; i < btn[guess].length; i++) {
+                    btn[guess][i].setOnClickListener(null);
+
+                }
             }
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        continueGame=true;
     }
 }

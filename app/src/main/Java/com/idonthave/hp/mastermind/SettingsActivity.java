@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -17,7 +19,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "GameSettings";
     private SeekBar seekBarNumberOfColors;
@@ -26,10 +28,11 @@ public class SettingsActivity extends Activity {
     private TextView textViewNumberOfSlots;
     private SeekBar seekBarNumberOfTries;
     private TextView textViewNumberOfTries;
-    private Button start;
-    private Button continueButton;
+    private SeekBar BoardColor;
+    private TextView textBoardColor;
     private CheckBox duplicates;
     private CheckBox emptySlots;
+    private CheckBox ovals;
     private TextView[] btn;
     private int AllColors[];
     private int colors[];
@@ -39,6 +42,18 @@ public class SettingsActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_menu);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar5);
+        setSupportActionBar(toolbar);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("Settings");
+        }
+
+
         initializeVariables();
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
@@ -46,6 +61,7 @@ public class SettingsActivity extends Activity {
         seekBarNumberOfColors.setProgress(setSeekbarColor(settings.getInt("numberOfColors", 6)));
         seekBarNumberOfSlots.setProgress(setSeekbarSlots(settings.getInt("numberOfSlots", 4)));
         seekBarNumberOfTries.setProgress(settings.getInt("numberOfTries",9));
+        BoardColor.setProgress(settings.getInt("boardColor",0));
 
         duplicates.setChecked(settings.getBoolean("allowDuplicates", true));
         emptySlots.setChecked(settings.getBoolean("allowEmpty", false));
@@ -135,27 +151,27 @@ public class SettingsActivity extends Activity {
             }
         });
 
-        start.setOnClickListener(new View.OnClickListener() {
+        textBoardColor.setText("Board Farbe: " + getBoardColor(BoardColor.getProgress()));
+
+        BoardColor.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            int progress = getSeekbarSlots(0);
 
             @Override
-            public void onClick(View v) {
-                if (getSeekbarSlots(seekBarNumberOfSlots.getProgress())<=getSeekbarColor(seekBarNumberOfColors.getProgress()) || duplicates.isChecked()){
-                    Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-                    intent.putExtra("continueGame",false);
-                    startActivity(intent);
-                }
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+                textBoardColor.setText("Board Farbe: " + getBoardColor(progress));
             }
-        });
-
-        continueButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
-                if (getSeekbarSlots(seekBarNumberOfSlots.getProgress())<=getSeekbarColor(seekBarNumberOfColors.getProgress()) || duplicates.isChecked()){
-                    Intent intent = new Intent(SettingsActivity.this, DuellActivity.class);
-                    intent.putExtra("continueGame",true);
-                    startActivity(intent);
-                }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                textBoardColor.setText("Board Farbe: " + getBoardColor(progress));
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                textBoardColor.setText("Board Farbe: " + getBoardColor(progress));
+                editor.putInt("boardColor",progress);
+                editor.commit();
             }
         });
 
@@ -164,6 +180,15 @@ public class SettingsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 editor.putBoolean("allowDuplicates",((CheckBox) v).isChecked());
+                editor.commit();
+            }
+        });
+
+        ovals.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                editor.putBoolean("ovalPins",((CheckBox) v).isChecked());
                 editor.commit();
             }
         });
@@ -186,10 +211,11 @@ public class SettingsActivity extends Activity {
         textViewNumberOfSlots = (TextView) findViewById(R.id.textView2);
         seekBarNumberOfTries = (SeekBar) findViewById(R.id.seekBar3);
         textViewNumberOfTries = (TextView) findViewById(R.id.textView4);
-        start = (Button) findViewById(R.id.start);
         duplicates = (CheckBox) findViewById(R.id.duplicates);
         emptySlots = (CheckBox) findViewById(R.id.emptySlots);
-        continueButton = (Button) findViewById(R.id.continueButton);
+        ovals = (CheckBox) findViewById(R.id.checkBox5);
+        BoardColor = (SeekBar) findViewById(R.id.seekBar4);
+        textBoardColor = (TextView) findViewById(R.id.textView3);
     }
 
     private int getSeekbarColor(int seek){
@@ -232,6 +258,16 @@ public class SettingsActivity extends Activity {
             case 5: r = 2;break;
             case 6: r = 3;break;
             case 8: r = 4;break;
+        }
+        return r;
+    }
+
+    private String getBoardColor(int seek){
+        String r = "White";
+        switch (seek){
+            case 0: r = "White";break;
+            case 1: r = "Brown";break;
+            case 2: r = "Orange";break;
         }
         return r;
     }
@@ -344,5 +380,11 @@ public class SettingsActivity extends Activity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

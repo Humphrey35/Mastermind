@@ -7,12 +7,23 @@
     android:background="@color/colorStyleWhite"
     android:id="@+id/rlsettings">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        android:minHeight="48dp"
+        android:theme="?attr/actionBarTheme" />
+
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="68dp"
         android:clickable="true"
         android:max="2" />
 
@@ -23,7 +34,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/seekBar"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="88dp"
         android:max="4" />
 
     <SeekBar
@@ -65,7 +76,7 @@
         android:layout_alignStart="@+id/textView2"
         android:layout_below="@+id/seekBar3"
         android:text="@string/lorem"
-        android:textColor="@color/colorStyleDarkGrey" />
+        android:textColor="@color/colorStyleBlack" />
 
     <TextView
         android:id="@+id/textView5"
@@ -73,16 +84,6 @@
         android:layout_height="50dp"
         android:layout_below="@+id/textView4"
         android:layout_marginTop="21dp" />
-
-    <Button
-        android:id="@+id/start"
-        android:layout_width="128dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/emptySlots"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:background="@color/colorStyleBlue"
-        android:text="@string/play" />
 
     <CheckBox
         android:id="@+id/duplicates"
@@ -106,16 +107,39 @@
         android:text="@string/allow_empty"
         android:textColor="@color/colorStyleBlack" />
 
-    <Button
-        android:id="@+id/continueButton"
+    <CheckBox
+        android:id="@+id/checkBox5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/start"
-        android:layout_alignLeft="@+id/start"
-        android:layout_alignRight="@+id/start"
-        android:layout_alignStart="@+id/start"
-        android:layout_below="@+id/start"
+        android:layout_alignEnd="@+id/emptySlots"
+        android:layout_alignLeft="@+id/emptySlots"
+        android:layout_alignRight="@+id/emptySlots"
+        android:layout_alignStart="@+id/emptySlots"
+        android:layout_below="@+id/emptySlots"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorStyleBlack"
+        android:text="Ovale Pins" />
+
+    <SeekBar
+        android:id="@+id/seekBar4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/checkBox5"
         android:layout_marginTop="19dp"
-        android:text="Continue" />
+        android:max="2"
+        android:textColor="@color/colorStyleBlack" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/checkBox5"
+        android:layout_alignStart="@+id/checkBox5"
+        android:layout_below="@+id/seekBar4"
+        android:layout_marginTop="17dp"
+        android:text="TextView"
+        android:textColor="@color/colorStyleBlack"/>
 
 </RelativeLayout>

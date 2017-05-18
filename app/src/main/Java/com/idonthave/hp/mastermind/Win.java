@@ -43,15 +43,9 @@ public class Win extends Activity {
                             Toast.LENGTH_LONG).show();
                 }
             }
-            text.setText(mydb.numberOfRowsHighscore() + " Sie haben gewonnen!\r\nIhr Highscore war " + String.format(Locale.GERMANY,"%012.0f",intent.getDoubleExtra("highscore", 0)) + "\r\nIhre Zeit betrug " + String.valueOf(intent.getLongExtra("estimatedTime", 100) / 1000000) + "ms\r\nberühren Sie den Text um das Spiel neuzustarten");
-            String old=text.getText().toString();
-            String[] top10 = mydb.getTopHighscores();
-            for (int i=0;i<top10.length;i++){
-                old += "\r\n" +i + " " + top10[i];
-            }
-            text.setText(old);
+            text.setText(" Sie haben gewonnen!\r\nIhr Highscore war " + String.format(Locale.GERMANY,"%012.0f",intent.getDoubleExtra("highscore", 0)));
         } else {
-            text.setText("Sie haben verloren!\r\nIhre Zeit betrug " + String.valueOf(intent.getLongExtra("estimatedTime", 100) / 1000000) + "ms\r\nberühren Sie den Text um das Spiel neuzustarten");
+            text.setText("Sie haben verloren!\r\n");
         }
 
 

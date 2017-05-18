@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by rrRRrr on 17.05.2017.
@@ -46,6 +47,7 @@ public class DuellActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("Farbcode festlegen");
         }
 
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -169,6 +171,9 @@ public class DuellActivity extends AppCompatActivity {
                     }
                     mydb.close();
                     startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Farbcode (noch) nicht zulässig",
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -200,6 +205,9 @@ public class DuellActivity extends AppCompatActivity {
                     if (!alreadyUsed){
                         t.setBackgroundResource(data.getIntExtra("COLOR", R.drawable.circle));
                         hidden[id-92] = data.getIntExtra("COLORID",0);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Duplikate nicht zulässig",
+                                Toast.LENGTH_LONG).show();
                     }
                 }
             }

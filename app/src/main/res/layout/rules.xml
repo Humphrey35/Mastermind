@@ -1,191 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/text12"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
     android:background="@android:color/black">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView16"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Wie man spielt?"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:visibility="visible" />
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView26"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="
-
-Raten sie den Code Ihrer Gegner in möglichst wenigen Versuchen.
-Ihr Ziel ist es, die zufällig ausgewählte Kombination von Farben in der richtigen Reihenfolge zu erraten.
-"
+        android:layout_below="@+id/textView16"
+        android:text="Raten sie den Code Ihrer Gegner in möglichst wenigen Versuchen.\r\nIhr Ziel ist es, die zufällig ausgewählte Kombination von Farben in der richtigen Reihenfolge zu erraten."
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView36"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="
-
-
-
-
-Spielmechanik:"
+        android:layout_below="@+id/textView26"
+        android:text="Spielmechanik:"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:visibility="visible" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView46"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="
-
-
-
-
-
-
-
-
-
-Tippen Sie auf eines der markierten Felder um eine Farbe zu wählen. Tippen Sie erneut, wenn Sie die Farbe ändern möchten. (Auch Leere Felder sind möglich)
-Wenn sie mit ihrer Kombination zufrieden sind, tippen sie auf ok.
-Um den vorherigen Zug rückgängig zu machen, tippen sie auf den Button Undo. Verwenden Sie den Button Undo werden Sie nichtmehr in die Bestenliste eingetragen.
-"
+        android:layout_below="@+id/textView36"
+        android:text="Tippen Sie auf eines der markierten Felder um eine Farbe zu wählen. Tippen Sie erneut, wenn Sie die Farbe ändern möchten. (Auch Leere Felder sind möglich)
+Wenn sie mit ihrer Kombination zufrieden sind, tippen sie auf ok.\r\nUm den vorherigen Zug rückgängig zu machen, tippen sie auf den Button Undo (Blau). Verwenden Sie den Button Undo werden Sie nichtmehr in die Bestenliste eingetragen."
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView56"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="
-
-
-
-
-
-
-
-
-
-
-
-Ergebnisse:
-"
+        android:layout_below="@+id/textView46"
+        android:text="Ergebnisse:"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:visibility="visible" /><TextView
-    android:id="@+id/textView6"
-    android:layout_width="wrap_content"
+        android:visibility="visible" />
+    <TextView
+    android:id="@+id/textView66"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Nach dem beenden einer Kombination werden am rechten Rand schwarze und weiße Stifte angezeigt
-
-schwarz – richtige Farbe und richtiger Platz
-weiß    - richtige Farbe und falscher Platz
-leer    - falsche Farbe und falscher Platz
-
-Die Reihenfolge der Ergebnis-Stifte steht nicht im Zusammenhang mit der Reihenfolge der Kombination.
-"
+    android:layout_below="@+id/textView56"
+    android:text="Nach dem beenden einer Kombination werden am rechten Rand schwarze und weiße Stifte angezeigt\r\n\r\n
+schwarz – richtige Farbe und richtiger Platz\r\n
+weiß    - richtige Farbe und falscher Platz\r\n
+leer    - falsche Farbe und falscher Platz\r\n\r\n
+Die Reihenfolge der Ergebnis-Stifte steht nicht im Zusammenhang mit der Reihenfolge der Kombination."
     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
     android:visibility="visible" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView76"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Einstellungen
-
-
-"
+        android:layout_below="@+id/textView66"
+        android:text="Einstellungen"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:visibility="visible" />
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Über die Einstellungen können Sie die Anzahl der Farben, Spielzüge und Pins festlegen. Verwenden Sie hierzu einfach den jeweiligen Slider.
-Zudem können Sie festlegen, ob der Code leere Pins enthalten darf oder sich Farben im Code doppel dürfen. Dies legen Sie durch das setzten eines Hakens im jeweiligen Feld fest fest.
-
-
-"
+        android:layout_below="@+id/textView76"
+        android:text="Über die Einstellungen können Sie die Anzahl der Farben, Spielzüge und Pins festlegen. Verwenden Sie hierzu einfach den jeweiligen Slider.\r\nZudem können Sie festlegen, ob der Code leere Pins enthalten darf oder sich Farben im Code doppel dürfen. Dies legen Sie durch das setzten eines Hakens im jeweiligen Feld fest fest."
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible" />
-</RelativeLayout>
+    <TextView
+        android:id="@+id/textView86"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:text="Punkte"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:visibility="visible" />
+    <TextView
+        android:id="@+id/textView96"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView86"
+        android:text="Jeder korrekte Pin gibt Punkte. Ein schwarzer Pin gibt doppelt Punkte.\r\nMit jedem Schritt werden die erreichbaren Punkte halbiert.\r\nBonus Punkte sind durch die Hinzunahme von Duplikaten oder leeren Feldern möglich."
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="visible" />
+    </RelativeLayout>
+</ScrollView>

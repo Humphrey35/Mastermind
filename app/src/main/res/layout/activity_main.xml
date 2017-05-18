@@ -7,16 +7,31 @@
     android:id="@+id/main"
     android:background="@color/colorStyleWhite">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <android.support.v7.widget.Toolbar android:id="@+id/toolbar3"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"/>
+
+    </android.support.design.widget.AppBarLayout>
+
     <android.support.constraint.ConstraintLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="0dp"
+        android:id="@+id/cl"
+        >
 
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="64dp"
+            android:id="@+id/fl"
             android:background="@color/colorStyleOrange"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -27,13 +42,12 @@
                 android:id="@+id/sc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:background="@color/colorStyleWhite">
+                android:layout_margin="2dp">
 
                 <LinearLayout
                     android:id="@+id/ll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -41,7 +55,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="1dp"
-                        tools:context=".MainActivity"></RelativeLayout>
+                        tools:context=".MainActivity" ></RelativeLayout>
                 </LinearLayout>
             </ScrollView>
         </FrameLayout>
@@ -116,13 +130,5 @@
             tools:ignore="ContentDescription,MissingConstraints" />
 
     </android.support.constraint.ConstraintLayout>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
 
 </android.support.design.widget.CoordinatorLayout>
