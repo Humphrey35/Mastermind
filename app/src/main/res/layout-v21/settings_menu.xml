@@ -1,109 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorStyleWhite">
 
-    <SeekBar
-        android:id="@+id/seekBar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="48dp"
-        android:clickable="true"
-        android:max="2"
-        android:progressBackgroundTint="@color/colorStyleDarkGreen"
-        android:thumbTint="@color/colorStyleDarkGreen" />
+        android:layout_height="match_parent"
+        android:background="@color/colorStyleWhite"
+        android:id="@+id/rlsettings">
 
-    <SeekBar
-        android:id="@+id/seekBar2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/seekBar"
-        android:layout_marginTop="48dp"
-        android:max="4"
-        android:progressBackgroundTint="@color/colorStyleDarkGreen"
-        android:thumbTint="@color/colorStyleDarkGreen" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            android:minHeight="48dp"
+            android:theme="?attr/actionBarTheme" />
 
-    <SeekBar
-        android:id="@+id/seekBar3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/seekBar2"
-        android:layout_marginTop="48dp"
-        android:thumbTint="@color/colorStyleDarkGreen"
-        android:progressBackgroundTint="@color/colorStyleDarkGreen" />
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="68dp"
+            android:clickable="true"
+            android:max="2" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/seekBar"
-        android:layout_marginLeft="27dp"
-        android:layout_marginStart="27dp"
-        android:text="TextView"
-        android:textColor="@color/colorStyleDarkGrey" />
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/seekBar"
+            android:layout_marginTop="128dp"
+            android:max="4" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_below="@+id/seekBar2"
-        android:text="TextView"
-        android:textColor="@color/colorStyleDarkGrey" />
+        <SeekBar
+            android:id="@+id/seekBar3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/seekBar2"
+            android:layout_marginTop="48dp"
+            android:max="36" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_below="@+id/seekBar3"
-        android:textColor="@color/colorStyleDarkGrey"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/seekBar"
+            android:layout_marginLeft="27dp"
+            android:layout_marginStart="27dp"
+            android:text="@string/lorem"
+            android:textColor="@color/colorStyleBlack"/>
 
-    <Button
-        android:id="@+id/start"
-        android:layout_width="128dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/emptySlots"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
-        android:backgroundTint="@color/colorStyleBlue"
-        android:text="@string/play" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView"
+            android:layout_below="@+id/seekBar2"
+            android:text="@string/lorem"
+            android:textColor="@color/colorStyleBlack" />
 
-    <CheckBox
-        android:id="@+id/duplicates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4"
-        android:layout_below="@+id/textView4"
-        android:layout_marginTop="24dp"
-        android:text="@string/allow_duplicate"
-        android:textColor="@color/colorStyleDarkGrey"
-        android:buttonTint="@color/colorStyleOrange" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_alignStart="@+id/textView2"
+            android:layout_below="@+id/seekBar3"
+            android:text="@string/lorem"
+            android:textColor="@color/colorStyleBlack" />
 
-    <CheckBox
-        android:id="@+id/emptySlots"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/duplicates"
-        android:layout_alignStart="@+id/duplicates"
-        android:layout_below="@+id/duplicates"
-        android:layout_marginTop="8dp"
-        android:text="Leere Felder zulassen"
-        android:textColor="@color/colorStyleDarkGrey"
-        android:buttonTint="@color/colorStyleOrange" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/textView4"
+            android:layout_marginTop="21dp" />
 
-</RelativeLayout>
+        <CheckBox
+            android:id="@+id/duplicates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView4"
+            android:layout_alignStart="@+id/textView4"
+            android:layout_below="@+id/textView4"
+            android:layout_marginTop="24dp"
+            android:text="@string/allow_duplicate"
+            android:textColor="@color/colorStyleBlack" />
+
+        <CheckBox
+            android:id="@+id/emptySlots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/duplicates"
+            android:layout_alignStart="@+id/duplicates"
+            android:layout_below="@+id/duplicates"
+            android:layout_marginTop="8dp"
+            android:text="@string/allow_empty"
+            android:textColor="@color/colorStyleBlack" />
+
+        <CheckBox
+            android:id="@+id/checkBox5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/emptySlots"
+            android:layout_alignLeft="@+id/emptySlots"
+            android:layout_alignRight="@+id/emptySlots"
+            android:layout_alignStart="@+id/emptySlots"
+            android:layout_below="@+id/emptySlots"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/colorStyleBlack"
+            android:text="Ovale Pins" />
+
+        <SeekBar
+            android:id="@+id/seekBar4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/checkBox5"
+            android:layout_marginTop="19dp"
+            android:max="2"
+            android:textColor="@color/colorStyleBlack" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/checkBox5"
+            android:layout_alignStart="@+id/checkBox5"
+            android:layout_below="@+id/seekBar4"
+            android:layout_marginTop="17dp"
+            android:text="TextView"
+            android:textColor="@color/colorStyleBlack"/>
+    </RelativeLayout>
+</ScrollView>
